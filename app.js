@@ -141,21 +141,12 @@ function renderHome() {
     </section>` : '';
 
   app.innerHTML = `
-    <section class="hero">
-      <div>
-        <p class="eyebrow">Station support system online</p>
-        <h1>Your crew.<br>Your clues.<br><em>One terminal.</em></h1>
-        <p class="lede">Set up a game, keep the characters in play close at hand, and find locations, projects, or traits before the station comes down.</p>
-        ${activeGame}
-        <div class="hero-actions">
-          <button class="btn btn-primary" data-action="new-game">New game <span>＋</span></button>
-          <a class="btn btn-secondary" href="#locations" ${state.game?'':'aria-disabled="true"'}>${state.game?'Open companion':'Set up to unlock companion'}</a>
-        </div>
-      </div>
-      <div class="orbit-panel" aria-hidden="true">
-        <div class="telemetry"><span>ORBIT 09.41</span><span>DECAY // ACTIVE</span></div>
-        <div class="orbit"><i></i><i></i><i></i></div>
-        <div class="station-core">FIELD<br>TERMINAL</div>
+    <section class="home-menu">
+      <h1>Stationfall <em>Companion</em></h1>
+      ${activeGame}
+      <div class="home-actions">
+        <button class="btn btn-primary" data-action="new-game">New game <span>＋</span></button>
+        <a class="btn btn-secondary" href="${state.game?'#game':'#setup'}">${state.game?'Open companion':'Character selection'}</a>
       </div>
     </section>`;
 

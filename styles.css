@@ -83,23 +83,10 @@ h2 { margin-bottom: 10px; font-size: clamp(30px, 4vw, 50px); line-height: 1; let
 h3 { letter-spacing: -.02em; }
 .lede { max-width: 650px; color: var(--paper-dim); font-size: clamp(16px, 2vw, 20px); line-height: 1.6; }
 
-.hero { display: grid; grid-template-columns: 1.2fr .8fr; gap: clamp(32px, 6vw, 92px); align-items: center; min-height: 62vh; }
-.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
-.orbit-panel { aspect-ratio: 1; position: relative; display: grid; place-items: center; }
-.orbit-panel::before, .orbit-panel::after { content: ''; position: absolute; border: 1px solid var(--line); border-radius: 50%; }
-.orbit-panel::before { inset: 8%; }
-.orbit-panel::after { inset: 27%; border-color: rgba(231,170,61,.32); }
-.orbit { width: 72%; height: 72%; border: 1px solid rgba(146,209,183,.25); border-radius: 50%; animation: spin 24s linear infinite; position: relative; }
-.orbit i { position: absolute; width: 11px; height: 11px; border: 2px solid var(--signal); background: var(--ink); border-radius: 50%; }
-.orbit i:nth-child(1) { top: 11%; left: 16%; }
-.orbit i:nth-child(2) { top: 57%; right: -5px; }
-.orbit i:nth-child(3) { bottom: 7%; left: 28%; }
-.station-core { position: absolute; width: 31%; height: 31%; border-radius: 50%; border: 1px solid var(--mint); background: radial-gradient(circle at 36% 32%, #183f34, #071310 66%); box-shadow: 0 0 70px rgba(102,190,155,.12); display: grid; place-items: center; font-family: var(--mono); font-size: 10px; letter-spacing: .12em; color: var(--mint); text-align: center; }
-.telemetry { position: absolute; inset: 0; font-family: var(--mono); font-size: 9px; letter-spacing: .12em; color: rgba(233,231,220,.45); }
-.telemetry span { position: absolute; }
-.telemetry span:nth-child(1) { top: 10%; right: 12%; }
-.telemetry span:nth-child(2) { bottom: 12%; left: 4%; }
-@keyframes spin { to { transform: rotate(360deg); } }
+.home-menu { width: min(680px, 100%); padding-top: clamp(24px, 7vw, 88px); }
+.home-menu h1 { max-width: 680px; margin-bottom: 34px; font-size: clamp(42px, 7vw, 78px); }
+.home-menu h1 em { display: block; }
+.home-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
 
 .btn { border: 1px solid transparent; min-height: 48px; padding: 0 20px; border-radius: 5px; display: inline-flex; align-items: center; justify-content: center; gap: 9px; cursor: pointer; text-decoration: none; font-weight: 700; transition: transform .18s ease, background .18s ease, border-color .18s ease; }
 .btn:hover { transform: translateY(-2px); }
@@ -240,8 +227,6 @@ h3 { letter-spacing: -.02em; }
 .toast.show { transform: translate(-50%, 0); opacity: 1; }
 
 @media (max-width: 900px) {
-  .hero { grid-template-columns: 1fr; }
-  .orbit-panel { width: min(430px, 88vw); margin: 0 auto; order: -1; }
   .setup-shell { grid-template-columns: 1fr; }
   .setup-rail { position: static; }
   .step-list { grid-template-columns: repeat(3, 1fr); }
@@ -256,9 +241,8 @@ h3 { letter-spacing: -.02em; }
   .brand-copy small { display: none; }
   main { width: min(100% - 28px, 1180px); padding-top: 34px; padding-bottom: 110px; }
   h1 { font-size: clamp(42px, 15vw, 68px); }
-  .hero { min-height: auto; gap: 36px; }
-  .orbit-panel { width: 280px; }
-  .hero-actions, .hero-actions .btn { width: 100%; }
+  .home-menu { padding-top: 18px; }
+  .home-actions, .home-actions .btn { width: 100%; }
   .active-game-top { align-items: flex-start; flex-direction: column; }
   .active-game-top .btn { width: 100%; }
   .page-head, .dashboard-head { align-items: flex-start; grid-template-columns: 1fr; flex-direction: column; }
