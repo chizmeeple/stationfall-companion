@@ -254,6 +254,8 @@ h3 { letter-spacing: -.02em; }
 .agenda-list ul li { margin: 7px 0; padding-left: 3px; line-height: 1.5; }
 .agenda-list ul li::marker { color: var(--signal-bright); }
 .agenda-list .agenda-note { color: var(--paper-dim); list-style-type: none; font-style: italic; }
+.bonus-lines { display: grid; gap: 7px; margin-top: 11px; }
+.bonus-lines p { margin: 0; }
 .quirk-list { margin: 13px 0 0; padding-left: 22px; color: var(--paper-dim); }
 .quirk-list li { margin: 0 0 9px; padding-left: 3px; line-height: 1.6; }
 .quirk-list li:last-child { margin-bottom: 0; }

@@ -442,11 +442,46 @@ const tipTexts = {
   ]
 };
 
+const bonusPointTexts = {
+  'astrochimp':['Friend: 2 points if Astrochimp is your BC and Escapes.'],
+  'billionaire':['Friend: 2 points if Billionaire is your BC and Fletcher Escapes. (Nobody cares about Billionaire, just the cute space pup.)'],
+  'boarder':['Friend: 1 point if Boarder is your BC and Escapes.'],
+  'botanist':['Friend: 2 points if Botanist is your BC and Fang Moss Escapes (No points if Botanist Escapes).'],
+  'colonel':['Friend: 2 points if Colonel is your BC and Escapes.'],
+  'consort':['Friend: 2 points if Consort is your BC and Escapes.'],
+  'corpsicle':['Friend: 3 points if Corpsicle is your BC and Escapes.'],
+  'counselor':['Friend: 2 points if Counselor is your BC and Escapes.'],
+  'cyborg':['Grudge: 2 points if Cyborg is your BC and is not Live at Stationfall.'],
+  'daredevil':['Friend: 2 points if Daredevil is your BC and Escapes.'],
+  'digital-assistant':['Friend: 2 points if Digital Assistant is your BC and Escapes.'],
+  'doctor-hyde':['Friend: 2 points if Doctor is your BC and Escapes.'],
+  'doctor-jekyll':['Friend: 2 points if Doctor is your BC and Escapes.'],
+  'drones':['Drones can not be anyone’s BC.'],
+  'engineer':['Grudge: 2 points if Engineer is your BC and is not Live at Stationfall.'],
+  'exile':['Friend: 2 points if Exile is your BC and Escapes.'],
+  'inspector':['Friend: 2 points if Inspector is your BC and Escapes.'],
+  'legal':['Grudge: 1 point if Legal is your BC and and is not Live at Stationfall.'],
+  'maintenance-clones':[
+    'Friend: 1 point for every Clone that Escapes.',
+    '+1 point if all 3 Clones Escape.'
+  ],
+  'medical':['Grudge: 1 point if Medical is your BC and is not Live at Stationfall.'],
+  'microbiologist':['Friend: 2 points if Microbiologist is your BC and Escapes.'],
+  'operative':['Grudge: 2 point if Operative is your BC and is not Live at Stationfall.'],
+  'security':['Grudge: 3 points if Security is your BC and is not Live at Stationfall.'],
+  'station-chief':['Grudge: 2 points if Station Chief is your BC and is not Live at Stationfall.'],
+  'stowaway':['Friend: 2 points if Stowaway is your BC and Escapes.'],
+  'stranger':['Friend: 2 points if Stranger is your BC and Escapes.'],
+  'telepathic-rat':['Friend: 2 points if Telepathic Rat is your BC and Escapes.'],
+  'troubleshooter':['Friend: 2 points if Troubleshooter is your BC and Escapes.']
+};
+
 characters.forEach(character => {
   character.revealPowers = revealPowerTexts[character.id] || [];
   character.reveal = character.revealPowers.map(power => `${power.name}: ${power.text}`).join(' ');
   character.quirks = quirkTexts[character.id] || ['None.'];
   character.tips = tipTexts[character.id] || [];
+  character.bonusPoints = bonusPointTexts[character.id] || [];
 });
 
 const locations = [
@@ -882,7 +917,7 @@ function openCharacter(id) {
       <div class="intel-block"><h3>Abilities</h3>${renderAbilities(character.abilityDetails)}</div>
       <div class="intel-block"><h3>Reveal ${character.revealPowers.length===1?'Power':'Powers'}</h3>${renderRevealPowers(character.revealPowers)}</div>
       <div class="intel-block">${renderAgenda(character.agenda, character.objective)}</div>
-      <div class="intel-block"><h3>Bonus points</h3><p>${character.bonus}</p></div>
+      <div class="intel-block"><h3>Bonus points</h3>${renderBonusPoints(character.bonusPoints)}</div>
       <div class="intel-block"><h3>Quirks</h3>${renderQuirks(character.quirks)}</div>
       <div class="intel-block"><h3>Tips</h3>${renderTips(character.tips)}</div>
       <div class="intel-block"><h3>Setup</h3><p>${character.setup}</p></div>
@@ -922,6 +957,10 @@ function renderRevealPowers(powers) {
 
 function renderQuirks(quirks) {
   return `<ul class="quirk-list">${quirks.map(quirk => `<li>${quirk}</li>`).join('')}</ul>`;
+}
+
+function renderBonusPoints(bonusPoints) {
+  return `<div class="bonus-lines">${bonusPoints.map(bonusPoint => `<p>${bonusPoint}</p>`).join('')}</div>`;
 }
 
 function renderTips(tips) {
