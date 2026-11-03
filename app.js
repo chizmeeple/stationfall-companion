@@ -164,9 +164,289 @@ const revealPowerTexts = {
   'troubleshooter':[{ name:'Talk Them Through It', text:'During your turn, if Troubleshooter is Live, your Conspirators move and act as though they have Jury Rig and Tunnel Rat.' }]
 };
 
+const quirkTexts = {
+  'astrochimp':[
+    'Astrochimp counts as a Human (hey, they’re 99% similar, close enough!).'
+  ],
+  'billionaire':[
+    'Billionaire doesn’t score any unused Bribes.',
+    'Fletcher is an Item that can be Picked Up, Dropped, Thrown etc. Fletcher cannot be Attacked or Downed (he’s got a retractable doggie space helmet). But Fletcher can be Annihilated in the same way as other Items.',
+    'Grey Bribes can only be used if they are still on the Billionaire’s card, not if it has been spent elsewhere already.',
+    'Billionare and Fletcher are Colocated for end game scoring if they are Colocated when Escaping using the same component/ability.'
+  ],
+  'boarder':[
+    'Boarder can win even if Guilty.',
+    'Boarder scores double for Possessed Bribes.',
+    'If an unlaunched Pod is targeted by Missile and then launches before Missile resolves, the Pod is Annihilated when Missile resolves.'
+  ],
+  'botanist':[
+    'Fang moss is an Item. Any Character Possessing gets access to the Feed Me! Action.'
+  ],
+  'colonel':[
+    'Colonel’s Paranoid ability makes him harder to Influence.',
+    'Colonel can not be Bribed.'
+  ],
+  'consort':[
+    'Consort scores double for Possessed Bribes.',
+    'Despite appearances, Consort is a Robot.'
+  ],
+  'corpsicle':[
+    'Starts Down.',
+    'Corpsicle’s Helmet is Integral, therefore cannot be removed.',
+    'Using Corpsicle’s Kompromat will additionally give her a Bludgeon and Revive her if Down.'
+  ],
+  'counselor':['None.'],
+  'cyborg':[
+    'Cyborg can win even if Guilty.',
+    'Cyborg is both Robot and Human, and acts as a Human in the case of Hazards and Attacks.'
+  ],
+  'daredevil':[
+    'With Point Break ability, Daredevil only needs to Possess a Helmet and be Colocated with Rocket Wings at Stationfall to Escape, she doesn’t need to Possess Rocket Wings.',
+    'Even if Daredevil can be in Outer Space without a Helmet she still need a Helmet to take the Rocket Wings Launch action.'
+  ],
+  'digital-assistant':[
+    'Digital Assistant is Data, and cannot Possess Items or Data.',
+    'Digital Assistant can be Manufactured in Mainframe.',
+    'Digital Assistant can win even if Guilty.',
+    'Blackout prevents Digital Assistant from doing Console Actions.',
+    'Digital Assistant can only perform Console actions, even when no Character Manufactured you yet.'
+  ],
+  'doctor-hyde':[
+    'Doctor has 2 Identity cards. Each Identity card has its own Agenda.',
+    'Doctor may be the PC of two players. A player trying to Bribe or use Kompromat on such a PC must choose one of the two players to accept or refuse. Both players become Suspect if Kompromat is refused.',
+    'Hyde scores double for Bribes Possessed by Doctor.',
+    'Both Players with Doctor as their PC may activate and act with Doctor.'
+  ],
+  'doctor-jekyll':[
+    'Doctor has 2 Identity cards. Each Identity card has its own Agenda.',
+    'Doctor may be the PC of two players. A player trying to Bribe or use Kompromat on such a PC must choose one of the two players to accept or refuse. Both players become Suspect if Kompromat is refused.',
+    'Jekyll scores normally for any Bribes Possessed by Doctor.'
+  ],
+  'drones':[
+    'Drones have no Identity card.',
+    'Drones are never Activated and therefore can never Free Pick Up or Drop.',
+    'Drones can perform Actions and may Possess Items and Data.',
+    'Drones Bludgeons are Integral and can not be removed from the Character card.',
+    'Using Console action Remote control is the only way to act with Drones. Unless Digital Assistant is in the game.'
+  ],
+  'engineer':[
+    'If an unlaunched Pod is targeted by Overload and then launches before the Time marker resolves, the Pod is Annihilated when the Time marker resolves.'
+  ],
+  'exile':['None.'],
+  'inspector':[
+    'Inspector scores double for Possessed Bribes.'
+  ],
+  'legal':[
+    'NDA is Data. Legal does not Possess NDA, but can Manufacture it into the Possession of Colocated Characters.',
+    'Characters Possessing NDA may not Copy, Delete, Deliver, or be Robbed of Data.',
+    'Legal may still Manufacture NDA into Downed Characters’ Possession. (Imagine Legal explaining all of the terms and conditions to the incapacitated victim... then lifting their lifeless handprint to sign the self-binding corporate smart-contract.)'
+  ],
+  'maintenance-clones':[
+    'When Activating Maintenance Clones you may perform Actions with a single Clone per turn.',
+    'Each Clone has an Item Limit of 2 (put both Items in the same slot).',
+    'Each Clone can Possess its own Data types and does not automatically share it with other Clones. Place Possessed Data and Items on their indicated slots.',
+    'You can still Activate and Renegotiate with Maintenance Clones as long as at least one of them has not Escaped or been Annihilated.'
+  ],
+  'medical':[
+    'Medical marker starts off the card at a “0”.',
+    'Use Medical marker to keep track of Revives and number of cubes sent to Betrayal for scoring purposes.',
+    'Medical can not revive Unhelmeted Humans in Hazards.',
+    'Free Steps from Emergency Response can be chained together.'
+  ],
+  'microbiologist':['None.'],
+  'operative':['None.'],
+  'security':['None.'],
+  'station-chief':['None.'],
+  'stowaway':[
+    'Stowaway’s pawn starts on her Character card.',
+    'Stowaway’s first ever Action must be to Step into any Dark Section and may not be interacted with until then.'
+  ],
+  'stranger':['None.'],
+  'telepathic-rat':[
+    'Rat is an Item, it can be Picked Up, Dropped, Thrown etc.',
+    'Rat starts Contaminated, but can be decontaminated (or recontaminated) normally.',
+    'Rat cannot Possess Items or Data.',
+    'Rat cannot be Attacked or ever become Down.',
+    'Rat can win even if Guilty.',
+    'Rat’s Paranoid ability makes it harder to influence.',
+    'Rat cannot be Bribed.',
+    'Rat starts Contaminated even though it will not Possess Items.'
+  ],
+  'troubleshooter':['None.']
+};
+
+const tipTexts = {
+  'astrochimp':[
+    'Artifact is in Physics Lab.',
+    'Briefcase is in Suite.',
+    'Guns can be Manufactured by a Character with Officer in Print Shop or acquired from another Character.',
+    'Astrochimp moves very quickly once he is Revealed. If he also gets his grubby little hands on a Gun and a Helmet he becomes one of the most dangerous Character in the game.'
+  ],
+  'billionaire':[
+    'Protect yourself with a Helmet and try to keep Jammers OFF so your Livestream Ability stays active.',
+    'When you Reveal you can use your grey Bribes for extra Actions with other Characters.'
+  ],
+  'boarder':[
+    'Briefcase is in Suite.',
+    'Your starting Items and indifference to Guilt allow you to Down Characters easily.',
+    'If you Reveal early you can cause much mayhem with Missiles.',
+    'If you Reveal late players won’t know whether they can Escape in Outer Space or not, possibly giving you more Bribes.',
+    'If Security is in the game, look out, as you count as a Fugitive.'
+  ],
+  'botanist':[
+    'Seek out Down Characters and feed Fang Moss.',
+    'Get a helmet.',
+    'Get contaminated in Bio Lab.',
+    'Use your ZeroBorn for extra mobility.',
+    'After Reveal, Fang Moss can act in addition to your Activation of any Character each turn.'
+  ],
+  'colonel':[
+    'You can Contaminate Characters and Manufacture X-Secret in Bio Lab.',
+    'You can Release Project X with Officer in Bridge or Cryo Lab, alternatively by damaging Vault X or by causing Blackout.'
+  ],
+  'consort':[
+    'Briefcase is in Suite.',
+    'Remember that your Reveal Power swaps all items and Bribes as well as your location.',
+    'A well-timed Reveal late game can put you in the right place at the right time.',
+    'The later you Reveal, the more likely you’ll get bribed or be able to swap into the possession of Bribes',
+    'Consider using an NPC to secure the Briefcase and move towards escape (setting up a later swap).'
+  ],
+  'corpsicle':[
+    'Corpsicle moves slowly on her own, but she can get crucial extra Steps by using Bribes or Kompromat.',
+    'You can Manufacture Nanogel in Nanofactory and Manufacture X-Secret in Bio Lab.',
+    'Prevent the release of Project X by keeping Officers out of Bridge and Cryo Lab.',
+    'If Medevac Pod is in the game, that may be your easiest Escape.'
+  ],
+  'counselor':[
+    'Artifact is in Physics Lab.',
+    'A well timed use of your Reveal Power can quickly make other players go from Innocent to Guilty if you can Transmit Evidence to Authorities using Array Control.',
+    'Collect Kompromats.'
+  ],
+  'cyborg':[
+    'You can always Down Characters without penalty but others can also Down you without penalty. Prioritize Downing Humans and Contaminated.',
+    'Once revealed you will stop becoming Exhausted because other Players may not activate you.',
+    'You can Release Project X with Officer in Bridge or Cryo Lab, alternatively by damaging Vault X or by causing Blackout.',
+    'If Security is in the game, look out, as you count as a Fugitive.'
+  ],
+  'daredevil':[
+    'Artifact is in Physics Lab and Contamination happens in Bio Lab.',
+    'Daredevil moves faster through Hazards and survives there without a Helmet.',
+    'Prevent others Humans from Escaping by Downing them, releasing Project X, Damaging Pods and preventing Abandon Ship.'
+  ],
+  'digital-assistant':[
+    'You are Data and will often need Conspirators to do your dirty work for you.',
+    'Get someone to manufacture you in the Mainframe, keep the Jammers OFF to Copy yourself to as many Characters as possible.',
+    'After Reveal you can control any Robot that Possesses you.',
+    'Damage Physics lab to avoid easy deletion.',
+    'A well timed use of your Reveal Power may be just before someone Escapes with other Data.'
+  ],
+  'doctor-hyde':[
+    'Briefcase is in Suite.',
+    'The later you Reveal, the more likely you’ll get Bribed.',
+    'A well timed Reveal will allow you to Down a Human with your newly acquired Gun just before you Escape with their body.'
+  ],
+  'doctor-jekyll':[
+    'Artifact is in Physics Lab, but you can also get it by Revealing if no PC Possesses it.',
+    'Get Contaminated in Bio Lab.',
+    'Keep the Jammers ON to prevent the Evidence from reaching the News or the Authorities easily.'
+  ],
+  'drones':[
+    'Drones are a useful way to Down Characters since they always Possess a Bludgeon.',
+    'Drones are useful for Repairing Sections.'
+  ],
+  'engineer':[
+    'Anyone can arm Antimatter by removing it from Magnetic Containment.',
+    'Officers can arm the Antimatter by triggering Self-Destruct from Bridge.',
+    'You can Decontaminate Characters in Tanks, or just Down them since you’re indifferent to Guilt.'
+  ],
+  'exile':[
+    'Pick up as much Kompromat as possible.',
+    'After Reveal, Kompromats can be used multiple times on NPCs.',
+    'Help any Character that you have Kompromat for to Escape.',
+    'Evidence can be Manufactured in Security Station and can be Deleted in Physics Lab.',
+    'Keep the Jammers ON to prevent the Evidence from reaching the News.'
+  ],
+  'inspector':[
+    'Briefcase is in the Suite.',
+    'Evidence can be Manufactured in Security Station and sent using Array Control or by Escaping with it at Stationfall.',
+    'Turn Jammers OFF to send Evidence to any Character.',
+    'Your shuttle does not require Abandon Ship to launch.',
+    'The later you Reveal, the more likely you’ll get Bribed.'
+  ],
+  'legal':[
+    'Acquiring and using Kompromat is a good way to create Suspect Players.',
+    'Your Influence Limit is low but Fine Print can help if you Reveal.',
+    'Damage Security Station since Evidence can be Manufactured there.',
+    'Prevent any form of Escape that does not require an NDA.',
+    'The NDA can only be personally Manufactured to or with Colocated Characters, so keep Legal Live if possible.'
+  ],
+  'maintenance-clones':[
+    'Maintenance Clones can move very quickly.',
+    'Take advantage of being in three different locations.',
+    'Evidence can be Manufactured in the Security Station and sent using Array Control or by Escaping with it at Stationfall.',
+    'Turn Jammers OFF to send Evidence to any Character.'
+  ],
+  'medical':[
+    'The more Characters that are Down, the more chances you have to score points and move around quicker.',
+    'The later you Reveal, the more chances you have to gain Points from other Players Influence cubes when Revealing.',
+    'Free Step can be used even when you do not choose to revive anyone.'
+  ],
+  'microbiologist':[
+    'Use your Reveal power or Bio Lab to Contaminate Characters.',
+    'Manufacture X-Secret in Bio Lab and Copy it to other Characters.',
+    'Trigger Abandon Ship using an Officer on Bridge, Damaging Power Sections, or releasing Project X.',
+    'You can launch multiple Occupied Pods from Bridge with Officer.'
+  ],
+  'operative':[
+    'Keep Jammers ON to prevent Data Copying.',
+    'Delete Data and Down Robots using your EMP Burst.',
+    'Using Kompromat on PCs at a critical moment is a good way to make them Suspect.',
+    'You can Decontaminate Characters in Tanks.',
+    'Use your Reveal powers wisely to Down Characters.'
+  ],
+  'security':[
+    'You are hard to Rob so Artifact and Briefcase are safest with you.',
+    'Once you Reveal you can Down any Character, and then plant a Bludgeon on them.',
+    'Acquiring and using Kompromat is a good way to create Suspect Players.',
+    'You can Release Project X using an Officer on the Bridge or the Cryo Lab.',
+    'Boarder and Cyborg are Fugitives.',
+    'Until you Reveal, Peacekeeper prevents you from Attacking or Sabotaging, but you can still ‘Rob’ items (confiscating/securing them).'
+  ],
+  'station-chief':[
+    'Trigger Abandon Ship as quickly as possible with Officer on Bridge, Damaging Power Sections, or releasing Project X.',
+    'You can launch multiple Occupied Pods from Bridge with Officer.',
+    'If you can Drag a Down Human to Medevac Pod, you can launch it without Abandon ship.'
+  ],
+  'stowaway':[
+    'Evidence can be Manufactured in Security Station and X-Secret in Bio Lab.',
+    'Transmit Data using Array Control or by Escaping with it at Stationfall.',
+    'Turn Jammers OFF to Copy Data and to use your Hacker Ability.',
+    'Stop others with Data from Escaping by Downing them or Step them into Physics Lab.'
+  ],
+  'stranger':[
+    'Focus mainly on achieving your BC’s condition and keeping the Stranger close to them.',
+    'If you want your BC to survive, trigger Abandon Ship as quickly as possible either with Officer on Bridge, Damaging Power Sections, or releasing Project X.',
+    'Due to your low point cap you should actively deduce and interfere with your opponent’s Agendas if possible.'
+  ],
+  'telepathic-rat':[
+    'Artifact is in Physics Lab. Briefcase is in Suite.',
+    'Beware of Annihilation or being Possessed by any Character that can potentially Escape.',
+    'You’re indifferent to Guilt, so you can Down Characters indiscriminately.',
+    'Aim to end in a Section with many Down Characters at Stationfall.',
+    'Your Reveal power prevents you from being left in an empty Section or Outer Space.',
+    'Helmets are the Rat’s enemy; find ways to dispose of them.'
+  ],
+  'troubleshooter':[
+    'Your Reveal Power is very useful to allow your Conspirators to Repair Damaged Sections.',
+    'Try to keep Characters out of Bridge, Cryo Lab and Magnetic Containment preventing releasing Project X and arming Antimatter.'
+  ]
+};
+
 characters.forEach(character => {
   character.revealPowers = revealPowerTexts[character.id] || [];
   character.reveal = character.revealPowers.map(power => `${power.name}: ${power.text}`).join(' ');
+  character.quirks = quirkTexts[character.id] || ['None.'];
+  character.tips = tipTexts[character.id] || [];
 });
 
 const locations = [
@@ -603,7 +883,8 @@ function openCharacter(id) {
       <div class="intel-block"><h3>Reveal ${character.revealPowers.length===1?'Power':'Powers'}</h3>${renderRevealPowers(character.revealPowers)}</div>
       <div class="intel-block">${renderAgenda(character.agenda, character.objective)}</div>
       <div class="intel-block"><h3>Bonus points</h3><p>${character.bonus}</p></div>
-      <div class="intel-block"><h3>Quirks</h3><p>${character.quirks}</p></div>
+      <div class="intel-block"><h3>Quirks</h3>${renderQuirks(character.quirks)}</div>
+      <div class="intel-block"><h3>Tips</h3>${renderTips(character.tips)}</div>
       <div class="intel-block"><h3>Setup</h3><p>${character.setup}</p></div>
       <div class="modal-actions"><button class="btn btn-secondary" data-close-modal>Close file</button><a class="btn btn-primary" href="#traits" data-close-modal>Find shared abilities</a></div>
     </div>`);
@@ -637,6 +918,14 @@ function renderRevealPowers(powers) {
       <h4>${power.name}</h4>
       <p>${power.text}</p>
     </article>`).join('')}</div>`;
+}
+
+function renderQuirks(quirks) {
+  return `<ul class="quirk-list">${quirks.map(quirk => `<li>${quirk}</li>`).join('')}</ul>`;
+}
+
+function renderTips(tips) {
+  return `<ul class="tip-list">${tips.map(tip => `<li>${tip}</li>`).join('')}</ul>`;
 }
 
 function openLocation(id) {
