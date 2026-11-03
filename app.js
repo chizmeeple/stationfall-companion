@@ -244,9 +244,13 @@ function removeGame() {
   localStorage.removeItem(STORAGE_KEY);
 }
 
+function sortCharacters(items) {
+  return [...items].sort((first, second) => first.name.localeCompare(second.name, 'en', { sensitivity:'base' }));
+}
+
 function getRoster() {
   if (!state.game) return [];
-  return state.game.characterIds.map(id => characters.find(character => character.id === id)).filter(Boolean);
+  return sortCharacters(state.game.characterIds.map(id => characters.find(character => character.id === id)).filter(Boolean));
 }
 
 function escapeHtml(value='') {
@@ -334,7 +338,7 @@ function renderSetup() {
   const setupRule = SETUP_BY_PLAYERS[state.setupPlayers];
   const picker = state.setupMode === 'manual' ? `
     <div class="character-grid">
-      ${characters.map(character => `
+      ${sortCharacters(characters).map(character => `
         <button class="character-pick ${selected.has(character.id)?'selected':''}" data-character="${character.id}" data-code="${character.code}" aria-pressed="${selected.has(character.id)}">
           <span class="check">${selected.has(character.id)?'✓':''}</span>
           <small>${character.role}</small>
@@ -490,7 +494,7 @@ function renderGlobalResults(query) {
   if (!term) { resultsNode.hidden = true; return; }
   const rosterIds = new Set(state.game.characterIds);
   const found = [
-    ...characters.filter(item => rosterIds.has(item.id) && searchable(item).includes(term)).map(item => ({type:'Character', label:item.name, detail:item.role, action:`character:${item.id}`})),
+    ...sortCharacters(characters.filter(item => rosterIds.has(item.id) && searchable(item).includes(term))).map(item => ({type:'Character', label:item.name, detail:item.role, action:`character:${item.id}`})),
     ...locations.filter(item => searchable(item).includes(term)).map(item => ({type:'Location', label:item.name, detail:`${item.deck} · ${item.zone}`, action:`location:${item.id}`})),
     ...projects.filter(item => searchable(item).includes(term)).map(item => ({type:'Project', label:item.name, detail:item.status, action:`project:${item.id}`})),
     ...allTraits().filter(trait => trait.toLowerCase().includes(term)).map(trait => ({type:'Ability', label:trait, detail:'Find matching roster', action:`trait:${trait}`}))
