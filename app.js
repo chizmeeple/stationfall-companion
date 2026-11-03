@@ -75,6 +75,49 @@ const agendas = {
 
 characters.forEach(character => { character.agenda = agendas[character.id]; });
 
+const abilityDescriptions = {
+  'Tunnel Rat':'May Step through Vents.',
+  'Loyal':'To Influence this Character, return all cubes on the card and place at least one more cube than was previously there.',
+  'Live Streams':'If Jammers are OFF, Billionaire’s and Fletcher’s Sections act as if Lit and Cameras are ON.',
+  'Rich':'Cannot be Bribed. When Activated, a grey Bribe may be used instead of the active player’s own Bribe; grey Bribes only score if Billionaire Escapes.',
+  'Breach':'As an Action, may remove an adjacent Lock.',
+  'Fugitive':'No actions taken with or against this Character make a player Suspect.',
+  'Scientist':'May perform a Free Section Action instead of a Free Pick Up or Drop.',
+  'ZeroBorn':'May Free Step or Airlock into a zero Gravity Section instead of a Free Pick Up or Drop.',
+  'Officer':'If not Blackout, may Step - or, if Down, be Dragged - through Locks, which are then removed.',
+  'Paranoid':'To Influence this Character, the active player must have a Colocated Conspirator. This Character cannot be Bribed.',
+  'Fast Talk':'Cannot be Attacked by Humans with a Bludgeon in Lit Sections.',
+  'Mimic Frameup':'After Downing a Human in a Lit Section, the active player may choose another player with a Colocated Conspirator to become Suspect instead.',
+  'Vengeful':'Using Corpsicle’s Kompromat also gives her a Bludgeon. It may be used while she is Down and immediately Revives her.',
+  'Dying':'May not be Activated while Exhausted and receives no Free Pick Up or Drop when Activated.',
+  'Wormtongue':'As an Action, move a cube on a Colocated Human’s card to Betrayal.',
+  'Uncanny':'It takes two Activation discs for this Character to become Exhausted.',
+  'Pride':'This Character cannot be Robbed.',
+  'Adrenaline':'Hazards do not Down Daredevil. A Step or Airlock into a Section with a Hazard is always free.',
+  'AI':'Can only perform Console Actions. A Character Possessing Digital Assistant has Officer for Section Actions and does not require Abandon Ship to launch a Pod.',
+  'Helpful':'No player may have more than one Influence cube on this Character.',
+  'Split':'Has two Identity Cards.',
+  'Disassemble':'As an Action, may become Down to Repair a Colocated Section or Robot.',
+  'Remote Control':'Cannot be Bribed, Influenced, or Activated directly. A Console Action may perform an Action with any Live Drone.',
+  'Jury Rig':'As an Action, Repair a Colocated Damaged Section or Down Robot.',
+  'Hacker':'May perform a Free Console Action instead of a Free Pick Up or Drop. If Jammers are OFF, may perform Console Actions in any Section.',
+  'Investigator':'Can Pick Up Kompromat or Manufacture Data from adjacent Sections.',
+  'Badge':'May Rob Items as if in Possession of a Gun.',
+  'Process Server':'As an Action, Manufacture NDA into the Possession of all Colocated Humans and Robots.',
+  'Lawyer Up':'As an Action, may change a Colocated Innocent or Guilty Player Character’s status to Suspect.',
+  'Emergency Response':'As an Action, may Revive a Human. A Step or Airlock into a Section with a Down Human is always free.',
+  'EMP Burst':'Damage Operative’s Section, Down all Robots in it, and Delete all Colocated Data.',
+  'Nerve Gas Grenades':'As an Action, place Asphyxiation in Operative’s Section or a Section she can Throw to.',
+  'Peacekeeper':'May only Attack Fugitives, Monsters, or non-Innocent Player Characters. May not Sabotage.',
+  'Armored':'Cannot be Attacked or Robbed by a Bludgeon.',
+  'Enigma':'A Schrödinger Reveal as Stranger does not discard any cards; retain them as Bonus Characters. Stranger then loses Uncanny.',
+  'Telepathy':'Perform an Action with a Colocated Unhelmeted Human, ignoring Self-Preservation. Telepathic Rat may only perform Telepathy Actions.'
+};
+
+characters.forEach(character => {
+  character.abilityDetails = character.traits.map(name => ({ name, description:abilityDescriptions[name] || '' }));
+});
+
 const locations = [
   { id:'command', name:'Command Deck', deck:'A-01', zone:'Command', description:'Station control, executive systems, and the best overview of a worsening situation.', tags:['Authority','Comms'] },
   { id:'security', name:'Security', deck:'A-03', zone:'Command', description:'Restricted records, weapons lockers, and surveillance access converge here.', tags:['Secure','Armed'] },
@@ -424,7 +467,7 @@ function renderCharacters() {
   const filtered = roster.filter(character => searchable(character).includes(query.toLowerCase()));
   renderLookupPage('Character companion','Only the cast selected for this game appears here.','Search in-play characters…','characters', filtered.map(character => `
     <article class="info-card clickable" data-open-character="${character.id}">
-      <div class="kicker">${character.role}</div><h3>${character.name}</h3><p>${character.ability}: ${character.abilityText}</p>
+      <div class="kicker">${character.role}</div><h3>${character.name}</h3><p>${character.traits.length} ${character.traits.length===1?'ability':'abilities'}: ${character.traits.join(' · ')}</p>
       <div class="meta"><span class="tag in-play">IN PLAY</span>${character.traits.map(trait=>`<span class="tag">${trait}</span>`).join('')}</div>
     </article>`).join(''));
   bindLookupSearch('characters'); bindCharacterOpeners();
@@ -502,7 +545,7 @@ function openCharacter(id) {
     <div class="modal-body">
       <div class="meta">${character.traits.map(trait=>`<span class="tag">${trait}</span>`).join('')}<span class="tag in-play">START: ${character.start}</span>${character.influence?`<span class="tag">INFLUENCE ${character.influence}</span>`:''}</div>
       <div class="intel-block"><h3>Setup</h3><p>${character.setup}</p></div>
-      <div class="intel-block"><h3>${character.ability}</h3><p>${character.abilityText}</p></div>
+      <div class="intel-block"><h3>Abilities</h3>${renderAbilities(character.abilityDetails)}</div>
       <div class="intel-block"><h3>Reveal power</h3><p>${character.reveal}</p></div>
       <div class="intel-block">${renderAgenda(character.agenda, character.objective)}</div>
       <div class="intel-block"><h3>Bonus points</h3><p>${character.bonus}</p></div>
@@ -519,6 +562,14 @@ function renderAgenda(agenda, fallback) {
       ${item.children?.length ? `<ul>${item.children.map(child => `<li>${child}</li>`).join('')}</ul>` : ''}
     </li>`).join('');
   return `<section class="agenda-card"><h3>Agenda: <em>${agenda.title}</em></h3><ul class="agenda-list">${items}</ul></section>`;
+}
+
+function renderAbilities(abilities) {
+  return `<div class="ability-list">${abilities.map(ability => `
+    <article class="ability-card">
+      <h4>${ability.name}</h4>
+      <p>${ability.description}</p>
+    </article>`).join('')}</div>`;
 }
 
 function openLocation(id) {

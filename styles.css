@@ -228,6 +228,11 @@ h3 { letter-spacing: -.02em; }
 .intel-block + .intel-block { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--line); }
 .intel-block h3 { margin-bottom: 8px; font-family: var(--mono); font-size: 10px; letter-spacing: .14em; color: var(--signal); text-transform: uppercase; }
 .intel-block p { margin: 0; color: var(--paper-dim); line-height: 1.65; }
+.ability-list { display: grid; gap: 10px; margin-top: 14px; }
+.ability-card { padding: 17px 18px; border: 1px solid rgba(146,209,183,.24); border-left: 3px solid var(--mint); border-radius: 5px; background: linear-gradient(110deg, rgba(146,209,183,.09), rgba(255,255,255,.025)); }
+.ability-card:nth-child(even) { border-color: rgba(231,170,61,.23); border-left-color: var(--signal); background: linear-gradient(110deg, rgba(231,170,61,.085), rgba(255,255,255,.02)); }
+.ability-card h4 { margin: 0 0 7px; color: var(--paper); font-family: var(--mono); font-size: 12px; letter-spacing: .09em; text-transform: uppercase; }
+.ability-card p { color: var(--paper-dim); }
 .agenda-card h3 { margin-bottom: 16px; color: var(--paper); font-size: 15px; letter-spacing: .02em; }
 .agenda-card h3 em { color: var(--signal-bright); font-style: italic; font-weight: 400; }
 .agenda-list { margin: 0; padding-left: 22px; color: var(--paper); }
