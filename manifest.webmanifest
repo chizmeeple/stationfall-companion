@@ -1,0 +1,17 @@
+{
+  "name": "Stationfall Field Terminal",
+  "short_name": "Stationfall",
+  "description": "An offline-friendly board game companion prototype.",
+  "start_url": "./#home",
+  "display": "standalone",
+  "background_color": "#06110f",
+  "theme_color": "#071512",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
