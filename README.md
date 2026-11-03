@@ -22,4 +22,4 @@ Then open `http://localhost:4173`.
 - Responsive mobile navigation
 - Offline app shell and installable web manifest
 
-The bundled game content is illustrative prototype copy and should be replaced with verified, licensed data before publication.
+Character and Project X summaries are derived from the user-supplied May 2022 Character Dossier. The source PDFs are not redistributed with this prototype; confirm publication rights before public release. Location descriptions remain prototype content pending a structured map-data pass.
