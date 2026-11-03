@@ -779,25 +779,18 @@ function renderDashboard() {
         <span class="shortcut">⌘ K</span>
         <div class="search-results" id="global-results" hidden></div>
       </div>
-      <div class="section-row"><h2>Characters in play</h2><a class="text-link" href="#characters">VIEW ALL →</a></div>
-      <div class="roster-strip">${roster.map((character,index)=>rosterCard(character,index)).join('')}</div>
       <div class="tool-grid">
-        ${toolCard('characters','◎','Character companion','Abilities, objectives, and starting locations')}
+        ${toolCard('characters','◎','Characters In-play','Abilities, objectives, and starting locations')}
         ${toolCard('locations','⌖','Location finder','Search the station by deck, zone, or purpose')}
         ${toolCard('projects','◇','Project X lookup','Find project leads, clues, and classifications')}
         ${toolCard('traits','≋','Ability finder','See which in-play characters share an official ability')}
       </div>
     </section>`;
 
-  bindCharacterOpeners();
   app.querySelector('[data-action="end-game"]').addEventListener('click', () => openConfirm('End this game?', 'This removes the saved roster from this device.', () => { removeGame(); location.hash='#home'; showToast('Game cleared'); }));
   const globalSearch = app.querySelector('#global-search');
   globalSearch.addEventListener('input', () => renderGlobalResults(globalSearch.value));
   document.addEventListener('keydown', focusSearchShortcut, { once:true });
-}
-
-function rosterCard(character,index) {
-  return `<button class="roster-card" data-open-character="${character.id}" style="--accent:${character.accent}"><span class="index">${String(index+1).padStart(2,'0')}</span><span class="avatar">${character.code}</span><h3>${character.name}</h3><p>${character.role}</p><span class="arrow">↗</span></button>`;
 }
 
 function toolCard(routeName, icon, title, text) {
