@@ -218,12 +218,13 @@ h3 { letter-spacing: -.02em; }
 .bottom-nav { display: none; }
 .modal-backdrop { position: fixed; inset: 0; z-index: 30; padding: 18px; display: grid; place-items: center; background: rgba(2,10,8,.78); backdrop-filter: blur(12px); }
 .modal { width: min(620px, 100%); max-height: min(820px, 92vh); overflow: auto; border: 1px solid rgba(146,209,183,.28); border-radius: 9px; background: #0c211c; box-shadow: var(--shadow); }
-.modal-head { min-height: 200px; padding: 28px; position: relative; display: flex; align-items: end; background: linear-gradient(135deg, rgba(146,209,183,.09), rgba(231,170,61,.07)); border-bottom: 1px solid var(--line); overflow: hidden; }
-.modal-head::after { content: attr(data-code); position: absolute; right: -8px; top: -30px; font-family: var(--mono); font-weight: 700; font-size: 160px; color: rgba(255,255,255,.035); letter-spacing: -.12em; }
-.modal-title { position: relative; z-index: 1; display: flex; align-items: center; gap: 17px; }
+.modal-head { min-height: 150px; padding: 22px 24px; position: relative; display: flex; align-items: end; background: linear-gradient(135deg, rgba(146,209,183,.09), rgba(231,170,61,.07)); border-bottom: 1px solid var(--line); overflow: hidden; }
+.modal-head::after { content: attr(data-code); position: absolute; right: -6px; top: -22px; font-family: var(--mono); font-weight: 700; font-size: 120px; color: rgba(255,255,255,.035); letter-spacing: -.12em; }
+.modal-title { position: relative; z-index: 1; display: flex; align-items: center; gap: 14px; }
+.modal .detail-avatar { width: 48px; height: 48px; }
 .modal-title h2 { margin: 0 0 5px; }
 .modal-title p { margin: 0; color: var(--mint); font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
-.modal-close { position: absolute; right: 18px; top: 18px; z-index: 3; }
+.modal-close { position: absolute; right: 14px; top: 14px; z-index: 3; }
 .modal-body { padding: 26px 28px 30px; }
 .intel-block + .intel-block { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--line); }
 .intel-block h3 { margin-bottom: 8px; font-family: var(--mono); font-size: 10px; letter-spacing: .14em; color: var(--signal); text-transform: uppercase; }
@@ -310,7 +311,7 @@ h3 { letter-spacing: -.02em; }
   .bottom-nav a.active { color: var(--signal-bright); background: rgba(231,170,61,.08); }
   .modal-backdrop { padding: 0; align-items: end; }
   .modal { max-height: 92vh; border-radius: 12px 12px 0 0; }
-  .modal-head { min-height: 170px; padding: 22px; }
+  .modal-head { min-height: 136px; padding: 18px 20px; }
   .modal-body { padding: 22px; }
 }
 
