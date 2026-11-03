@@ -630,7 +630,6 @@ function renderHome() {
       ${activeGame}
       <div class="home-actions">
         <button class="btn btn-primary" data-action="new-game">New game <span>＋</span></button>
-        <a class="btn btn-secondary" href="${state.game?'#game':'#setup'}">${state.game?'Open companion':'Character selection'}</a>
       </div>
     </section>`;
 
