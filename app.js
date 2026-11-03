@@ -620,11 +620,15 @@ function renderAgenda(agenda, fallback) {
 }
 
 function renderAbilities(abilities) {
-  return `<div class="ability-list">${abilities.map(ability => `
-    <article class="ability-card">
-      <h4>${ability.name}</h4>
-      <p>${ability.description}</p>
-    </article>`).join('')}</div>`;
+  return `<div class="ability-list">${abilities.map(ability => {
+    const matches = getRoster().filter(character => character.traits.includes(ability.name));
+    return `
+      <article class="ability-card">
+        <h4><a class="ability-link" href="#traits" data-select-trait="${escapeHtml(ability.name)}">${ability.name}<span aria-hidden="true">↗</span></a></h4>
+        <p>${ability.description}</p>
+        <div class="ability-roster"><span>In play with:</span> ${matches.map(character => `<button type="button" data-modal-character="${character.id}">${character.name}</button>`).join(', ') || 'No characters'}</div>
+      </article>`;
+  }).join('')}</div>`;
 }
 
 function renderRevealPowers(powers) {
@@ -653,6 +657,14 @@ function openConfirm(title, body, onConfirm) {
 function openModal(content) {
   modalRoot.innerHTML = `<div class="modal-backdrop" data-backdrop><section class="modal" role="dialog" aria-modal="true">${content}</section></div>`;
   modalRoot.querySelectorAll('[data-close-modal]').forEach(button=>button.addEventListener('click',closeModal));
+  modalRoot.querySelectorAll('[data-select-trait]').forEach(link=>link.addEventListener('click',event=>{
+    event.preventDefault();
+    state.selectedTrait = link.dataset.selectTrait;
+    closeModal();
+    if (location.hash === '#traits') renderTraits();
+    else location.hash = '#traits';
+  }));
+  modalRoot.querySelectorAll('[data-modal-character]').forEach(button=>button.addEventListener('click',()=>openCharacter(button.dataset.modalCharacter)));
   modalRoot.querySelector('[data-backdrop]').addEventListener('click',event=>{if(event.target===event.currentTarget)closeModal();});
   document.addEventListener('keydown', closeOnEscape);
 }
