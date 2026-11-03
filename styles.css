@@ -176,9 +176,10 @@ h3 { letter-spacing: -.02em; }
 .text-link { border: 0; color: var(--mint); background: transparent; cursor: pointer; font-family: var(--mono); font-size: 10px; letter-spacing: .08em; text-decoration: none; }
 .detail-avatar { width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center; font-family: var(--mono); font-weight: 700; color: var(--ink); background: var(--accent, var(--signal)); }
 .tool-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 0; }
-.tool-card { min-height: 150px; padding: 20px; border: 1px solid var(--line); border-radius: 6px; display: flex; flex-direction: column; justify-content: space-between; color: inherit; text-decoration: none; background: rgba(255,255,255,.02); transition: transform .18s, border-color .18s; }
+.tool-card { min-height: 132px; padding: 18px; border: 1px solid var(--line); border-radius: 6px; display: grid; grid-template-columns: 56px minmax(0,1fr); align-items: center; gap: 18px; color: inherit; text-decoration: none; background: rgba(255,255,255,.02); transition: transform .18s, border-color .18s; }
 .tool-card:hover { transform: translateY(-3px); border-color: rgba(146,209,183,.4); }
-.tool-card .tool-icon { font-family: var(--mono); font-size: 18px; color: var(--signal); }
+.tool-card .tool-icon { width: 56px; height: 56px; border: 1px solid rgba(231,170,61,.28); border-radius: 50%; display: grid; place-items: center; font-family: var(--mono); font-size: 28px; color: var(--signal); background: rgba(231,170,61,.06); transition: background .18s, transform .18s; }
+.tool-card:hover .tool-icon { transform: scale(1.05); background: rgba(231,170,61,.11); }
 .tool-card h3 { margin: 0 0 5px; }
 .tool-card p { margin: 0; color: var(--paper-dim); font-size: 12px; }
 
@@ -308,8 +309,9 @@ h3 { letter-spacing: -.02em; }
   .setup-footer { position: sticky; bottom: 78px; z-index: 8; margin-left: -14px; margin-right: -14px; padding: 14px; background: rgba(6,17,15,.94); backdrop-filter: blur(12px); }
   .setup-footer .btn { flex: 1; padding-inline: 10px; }
   .list-grid, .trait-results { grid-template-columns: 1fr; }
-  .tool-grid { grid-template-columns: 1fr 1fr; }
-  .tool-card { min-height: 130px; }
+  .tool-grid { grid-template-columns: 1fr; }
+  .tool-card { min-height: 112px; grid-template-columns: 48px minmax(0,1fr); gap: 15px; padding: 16px; }
+  .tool-card .tool-icon { width: 48px; height: 48px; font-size: 24px; }
   .header-actions .game-label { display: none; }
   .bottom-nav:not([hidden]) { position: fixed; left: 10px; right: 10px; bottom: max(10px, env(safe-area-inset-bottom)); z-index: 15; min-height: 66px; padding: 7px; display: grid; grid-template-columns: repeat(5,1fr); border: 1px solid var(--line); border-radius: 9px; background: rgba(8,24,20,.94); backdrop-filter: blur(18px); box-shadow: var(--shadow); }
   .bottom-nav a { display: grid; place-items: center; gap: 2px; border-radius: 5px; color: var(--paper-dim); text-decoration: none; font-family: var(--mono); font-size: 7px; letter-spacing: .05em; text-transform: uppercase; }
