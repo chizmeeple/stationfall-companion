@@ -118,6 +118,57 @@ characters.forEach(character => {
   character.abilityDetails = character.traits.map(name => ({ name, description:abilityDescriptions[name] || '' }));
 });
 
+const revealPowerTexts = {
+  'astrochimp':[{ name:'Acrobatics', text:'Gains ZeroBorn: May Free Step or Airlock into a zero Gravity Section instead of Free Pickup or Drop.' }],
+  'billionaire':[{ name:'Hollow Promises', text:'Upon Reveal gain and/or return all three Grey Bribe tokens.' }],
+  'boarder':[
+    { name:'Missile', text:'If Jammers OFF, place 1 time marker on one Unescaped Section. When time marker is resolved Damage that Section and Down all Colocated Characters. Only one inbound Missile at a time is allowed.' },
+    { name:'Extricate', text:'Upon Reveal (even at Stationfall), flip the Rescue Ship to Pirate Ship. Pirate Ship will only rescue any Character Possessing Briefcase (even if Down).' }
+  ],
+  'botanist':[{ name:'Creatropism', text:'During Botanist Player’s Activation phase, if Fang Moss is not Possessed by a Live Character, Fang Moss may perform a Free Step or Annihilate a Down Colocated Human, Dropping its Items.' }],
+  'colonel':[{ name:'Mission First', text:'Upon Reveal, return all of your Influence cubes in Betrayal to your pool.' }],
+  'consort':[{ name:'Shapeshift Switch', text:'Upon Reveal, if Live may swap locations with any Human or Robot NPC that is not Escaped or Annihilated. Characters also swap all non-Integral Possessions (Free Drop any Item exceeding the Item Limit chosen by the active Player).' }],
+  'corpsicle':[{ name:'Last Gasp', text:'Upon Reveal, Revive if Down or perform an Action.' }],
+  'counselor':[{ name:'Recorded Confessional', text:'Upon Reveal, if Live choose a Colocated Human. All other Innocent players who have that Human as a Conspirator become Suspect.' }],
+  'cyborg':[
+    { name:'Brutal', text:'May use a Bludgeon to Down a Helmeted Human, at which point Annihilate both the Bludgeon and the Helmet.' },
+    { name:'Self-Repair', text:'You may Activate Cyborg if Down and as your first action Revive Cyborg.' }
+  ],
+  'daredevil':[{ name:'Point Break', text:'If you are Live, Possess a Helmet, and are Colocated with Rocket Wings at Stationfall, you Escape.' }],
+  'digital-assistant':[
+    { name:'Root Access', text:'As an Action, perform an Action with any Robot that Possesses Digital Assistant. Ignore Self-Preservation.' },
+    { name:'Trojan Horse', text:'Upon Reveal, Copy Digital Assistant to an Unescaped Character that Possesses Evidence or X-Secret.' }
+  ],
+  'doctor-hyde':[{ name:'ZipGun', text:'Upon Reveal, gain a Gun.' }],
+  'doctor-jekyll':[{ name:'Fake Artifact', text:'Upon Reveal, unless Possessed by a PC, Artifact moves to Doctor even if it was Annihilated.' }],
+  'drones':[{ name:'None', text:'None.' }],
+  'engineer':[{ name:'Overload', text:'Upon Reveal place a time marker in any Unescaped Section. When it resolves, Damage that Section.' }],
+  'exile':[
+    { name:'Blood From a Stone', text:'After using Kompromat on an NPC, return it to your hand.' },
+    { name:'Tradecraft', text:'As an Action with Exile, discard two Kompromat from your hand and take a previously used NPC’s Kompromat into your hand.' }
+  ],
+  'inspector':[{ name:'Offshore Shenanigans', text:'Upon Reveal, regain your Bribe if it has been used.' }],
+  'legal':[
+    { name:'Fine Print', text:'You may Activate NPCs Possessing NDA.' },
+    { name:'Hardcopy', text:'As an Action, any Character Colocated with Legal can Manufacture a copy of NDA.' }
+  ],
+  'maintenance-clones':[{ name:'Go Go Go!', text:'Upon Reveal, you may immediately perform an Action with each Live and Unescaped Clone.' }],
+  'medical':[{ name:'Haywire', text:'Gains a Bludgeon.' }],
+  'microbiologist':[{ name:'Infect', text:'As an action, Contaminate a Colocated Human or Robot. If they have no empty item slots, they drop an Item of your choice. Humans and Robots can never have more than one Contamination.' }],
+  'operative':[{ name:'Claymore', text:'Peek at, then place 3 trap tokens face-down in 3 different Sections. Flip each token after a Human, Robot, or Monster enters the Section and Down them if it is the trap. Traps never trigger Suspicion, Guilt or Self-Preservation.' }],
+  'security':[{ name:'Authorized Force', text:'Lose Peacekeeper.' }],
+  'station-chief':[{ name:'Forceful Presence', text:'At the start of Station Chief’s Activation phase you may perform a Free Basic Action with a Colocated NPC or with an NPC Officer anywhere.' }],
+  'stowaway':[{ name:'Secret Cache', text:'Upon Reveal, you or one of your Conspirators gains a Helmet.' }],
+  'stranger':[{ name:'Homework', text:'Upon Reveal, you may Reveal your BC and perform one Action with that Character.' }],
+  'telepathic-rat':[{ name:'My Precious', text:'Other players may not Throw, Airlock or Drop you. You may still be Given to Colocated Characters.' }],
+  'troubleshooter':[{ name:'Talk Them Through It', text:'During your turn, if Troubleshooter is Live, your Conspirators move and act as though they have Jury Rig and Tunnel Rat.' }]
+};
+
+characters.forEach(character => {
+  character.revealPowers = revealPowerTexts[character.id] || [];
+  character.reveal = character.revealPowers.map(power => `${power.name}: ${power.text}`).join(' ');
+});
+
 const locations = [
   { id:'command', name:'Command Deck', deck:'A-01', zone:'Command', description:'Station control, executive systems, and the best overview of a worsening situation.', tags:['Authority','Comms'] },
   { id:'security', name:'Security', deck:'A-03', zone:'Command', description:'Restricted records, weapons lockers, and surveillance access converge here.', tags:['Secure','Armed'] },
@@ -546,7 +597,7 @@ function openCharacter(id) {
       <div class="meta">${character.traits.map(trait=>`<span class="tag">${trait}</span>`).join('')}<span class="tag in-play">START: ${character.start}</span>${character.influence?`<span class="tag">INFLUENCE ${character.influence}</span>`:''}</div>
       <div class="intel-block"><h3>Setup</h3><p>${character.setup}</p></div>
       <div class="intel-block"><h3>Abilities</h3>${renderAbilities(character.abilityDetails)}</div>
-      <div class="intel-block"><h3>Reveal power</h3><p>${character.reveal}</p></div>
+      <div class="intel-block"><h3>Reveal ${character.revealPowers.length===1?'Power':'Powers'}</h3>${renderRevealPowers(character.revealPowers)}</div>
       <div class="intel-block">${renderAgenda(character.agenda, character.objective)}</div>
       <div class="intel-block"><h3>Bonus points</h3><p>${character.bonus}</p></div>
       <div class="intel-block"><h3>Quirks</h3><p>${character.quirks}</p></div>
@@ -569,6 +620,14 @@ function renderAbilities(abilities) {
     <article class="ability-card">
       <h4>${ability.name}</h4>
       <p>${ability.description}</p>
+    </article>`).join('')}</div>`;
+}
+
+function renderRevealPowers(powers) {
+  return `<div class="reveal-list">${powers.map(power => `
+    <article class="reveal-card">
+      <h4>${power.name}</h4>
+      <p>${power.text}</p>
     </article>`).join('')}</div>`;
 }
 
