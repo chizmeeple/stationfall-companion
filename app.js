@@ -520,6 +520,7 @@ const state = {
   setupMode: 'manual',
   setupSelected: [],
   selectedTrait: 'Agile',
+  characterType: 'All',
   filters: { characters:'', locations:'', projects:'' }
 };
 
@@ -831,16 +832,38 @@ function searchable(item) {
   return Object.values(item).flat().join(' ').toLowerCase();
 }
 
+const CHARACTER_TYPES = ['Human','Robot','Item','Data'];
+
+function characterTypes(character) {
+  const typeText = character.role.split(' · ')[0];
+  return CHARACTER_TYPES.filter(type => typeText.includes(type));
+}
+
+function characterPronouns(character) {
+  return character.role.split(' · ')[1] || '';
+}
+
+function renderCharacterTypeBadge(type) {
+  return `<span class="character-type character-type-${type.toLowerCase()}"><span class="type-shape" aria-hidden="true"></span>${type}</span>`;
+}
+
 function renderCharacters() {
   const roster = getRoster();
   const query = state.filters.characters;
-  const filtered = roster.filter(character => searchable(character).includes(query.toLowerCase()));
+  const filtered = roster.filter(character => searchable(character).includes(query.toLowerCase()) && (state.characterType === 'All' || characterTypes(character).includes(state.characterType)));
+  const typeFilters = ['All',...CHARACTER_TYPES];
   renderLookupPage('Character companion','Only the cast selected for this game appears here.','Search in-play characters…','characters', filtered.map(character => `
     <article class="info-card clickable" data-open-character="${character.id}">
-      <div class="kicker">${character.role}</div><h3>${character.name}</h3><p>${character.traits.length} ${character.traits.length===1?'ability':'abilities'}: ${character.traits.join(' · ')}</p>
-      <div class="meta"><span class="tag in-play">IN PLAY</span>${character.traits.map(trait=>`<span class="tag">${trait}</span>`).join('')}</div>
-    </article>`).join(''));
-  bindLookupSearch('characters'); bindCharacterOpeners();
+      <div class="character-type-row"><div class="character-types">${characterTypes(character).map(renderCharacterTypeBadge).join('')}</div><span class="character-pronouns">${characterPronouns(character)}</span></div>
+      <h3>${character.name}</h3>
+      <div class="card-ability-label">Abilities</div>
+      <div class="card-abilities">${character.traits.map(trait=>`<a href="#traits" data-card-trait="${escapeHtml(trait)}">${trait}</a>`).join('')}</div>
+      <div class="meta"><span class="tag in-play">IN PLAY</span></div>
+    </article>`).join(''), typeFilters, state.characterType, true);
+  bindLookupSearch('characters');
+  bindCharacterTypeFilters();
+  bindCardTraitLinks();
+  bindCharacterOpeners();
 }
 
 function renderLocations() {
@@ -860,12 +883,12 @@ function renderProjects() {
   bindLookupSearch('projects'); app.querySelectorAll('[data-open-project]').forEach(node=>node.addEventListener('click',()=>openProject(node.dataset.openProject)));
 }
 
-function renderLookupPage(title, subtitle, placeholder, key, cards, chips=[]) {
+function renderLookupPage(title, subtitle, placeholder, key, cards, chips=[], activeChip=chips[0], shapedChips=false) {
   app.innerHTML = `
     <a class="back-link" href="#game">← Station brief</a>
     <div class="page-head"><div><p class="eyebrow">Field index</p><h2>${title}</h2><p class="lede">${subtitle}</p></div></div>
     <div class="lookup-bar"><input class="search-input" data-lookup="${key}" type="search" value="${escapeHtml(state.filters[key])}" placeholder="${placeholder}" aria-label="Search ${title}" /><a class="btn btn-secondary" href="#game">Done</a></div>
-    ${chips.length?`<div class="filter-chips">${chips.map((chip,index)=>`<button class="chip ${index===0?'active':''}" data-chip="${chip}" data-key="${key}">${chip}</button>`).join('')}</div>`:''}
+    ${chips.length?`<div class="filter-chips">${chips.map(chip=>`<button class="chip ${chip===activeChip?'active':''}" data-chip="${chip}" data-key="${key}">${shapedChips && chip!=='All'?`<span class="type-shape type-shape-${chip.toLowerCase()}" aria-hidden="true"></span>`:''}${chip}</button>`).join('')}</div>`:''}
     <div class="list-grid">${cards || `<div class="empty-state"><div><h3>No matches</h3><p>Try a broader search term.</p></div></div>`}</div>`;
 }
 
@@ -878,6 +901,22 @@ function bindFilterChips(key) {
   app.querySelectorAll(`[data-key="${key}"]`).forEach(button => button.addEventListener('click', () => {
     state.filters[key] = button.dataset.chip === 'All' ? '' : button.dataset.chip;
     renderLocations();
+  }));
+}
+
+function bindCharacterTypeFilters() {
+  app.querySelectorAll('[data-key="characters"]').forEach(button => button.addEventListener('click', () => {
+    state.characterType = button.dataset.chip;
+    renderCharacters();
+  }));
+}
+
+function bindCardTraitLinks() {
+  app.querySelectorAll('[data-card-trait]').forEach(link => link.addEventListener('click', event => {
+    event.preventDefault();
+    event.stopPropagation();
+    state.selectedTrait = link.dataset.cardTrait;
+    location.hash = '#traits';
   }));
 }
 
@@ -902,7 +941,10 @@ function allTraits() {
 }
 
 function bindCharacterOpeners() {
-  app.querySelectorAll('[data-open-character]').forEach(node=>node.addEventListener('click',()=>openCharacter(node.dataset.openCharacter)));
+  app.querySelectorAll('[data-open-character]').forEach(node=>node.addEventListener('click',event=>{
+    if (event.target.closest('[data-card-trait]')) return;
+    openCharacter(node.dataset.openCharacter);
+  }));
 }
 
 function openCharacter(id) {
