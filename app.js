@@ -42,6 +42,39 @@ const characters = [
   { id:'troubleshooter', name:'Troubleshooter', role:'Human · She/Her', code:'TS', accent:'#e5bd68', traits:['Tunnel Rat','Jury Rig'], ability:'Tunnel Rat · Jury Rig', abilityText:'May Step through Vents and Repair a Colocated Damaged Section or Down Robot.', reveal:'Talk Them Through It gives all Conspirators Jury Rig and Tunnel Rat during your turn while Troubleshooter is Live.', objective:'Pristine ’til the End — score for unarmed Antimatter, unreleased Project X, undamaged Sections, and Live Robots.', start:'Print Shop', influence:6, bonus:'Friend: 2 points if Troubleshooter Escapes.', setup:'Place Troubleshooter in Print Shop with a Bludgeon and connect Cargo Claw to Forward Airlocks.', quirks:'Cargo Claw adds Grip, which retrieves an Item or Down Character from Outer Space.' }
 ];
 
+const agendas = {
+  'astrochimp': { title:'Shiny Things', items:[{ text:'3 points if Astrochimp Escapes', children:['+2 points if in Possession of Briefcase','+2 points if in Possession of Artifact','+2 points if in Possession of a Gun'] }] },
+  'billionaire': { title:'Survive', items:[{ text:'4 points if Billionaire Escapes', children:['+1 point if not Colocated with Live Humans or Robots at Stationfall'] },{ text:'2 points if Fletcher Escapes', children:['+1 point if Fletcher and Billionaire are Colocated when Escaping'] },{ text:'Billionaire does not score Possessed or unused Bribes', note:true }] },
+  'boarder': { title:'Loot', items:[{ text:'2 points if Boarder Escapes', children:['+4 points if Boarder Possesses Briefcase, or Briefcase is in Outer Space at Stationfall','+1 point for every Live Human in Outer Space at Stationfall'] }] },
+  'botanist': { title:'Blood Meal', items:[{ text:'2 points for every Human Annihilated by Fang Moss' },{ text:'2 points if Fang Moss Escapes' },{ text:'2 points if Botanist Escapes', children:['+1 point if Contaminated'] }] },
+  'colonel': { title:'Weapons Test', items:[{ text:'3 points if Colonel Escapes' },{ text:'2 points if at least one Contaminated NPC Escapes' },{ text:'2 points if Project X is released' },{ text:'2 points if X-Secret Escapes' }] },
+  'consort': { title:'New Life', items:[{ text:'0 points if Consort Escapes', children:['+3 points if not Colocated with a Live Human or Robot at Stationfall','+3 points if Consort Possesses Briefcase','+1 point if Secret Identity is not Revealed until Stationfall'] }] },
+  'corpsicle': { title:'Miracle Cure', items:[{ text:'3 points if Corpsicle Escapes', children:['+2 points if Corpsicle Possesses Nanogel','+2 points if X-Secret Escapes','+2 points if Project X is not released'] }] },
+  'counselor': { title:'Cloak and Dagger', items:[{ text:'2 points if Counselor Escapes' },{ text:'4 points if Artifact Escapes' },{ text:'2 points if you have more Kompromat than any other player at Stationfall' },{ text:'1 point if you have the least cubes in Betrayal at Stationfall' }] },
+  'cyborg': { title:'Revenge', items:[{ text:'1 point for each Character with Officer that is Down at Stationfall' },{ text:'2 points if no Human Player Characters Escape' },{ text:'2 points if no Contamination Escapes' },{ text:'2 points if Project X was released' }] },
+  'daredevil': { title:'Thrillseeker', items:[{ text:'3 points if Daredevil Escapes', children:['+2 points if Daredevil is the only Human that Escapes','+2 points if Daredevil Possesses Artifact or is Contaminated'] },{ text:'1 point if Project X was released' }] },
+  'digital-assistant': { title:'Proliferate', items:[{ text:'2 points for every Escaped Robot that Possesses Digital Assistant' },{ text:'1 point for every Offsite or Escaped Human that Possesses Digital Assistant' },{ text:'2 points if at least two copies of Digital Assistant Escape' }] },
+  'doctor-hyde': { title:'Cruelty', items:[{ text:'2 points if Doctor Escapes', children:['+3 points if Doctor Possesses Briefcase','+4 points if Doctor Escaped Live in a Pod with a Down Human'] }] },
+  'doctor-jekyll': { title:'Science', items:[{ text:'1 point if Doctor Escapes', children:['+3 points if Doctor is Contaminated','+3 points if Doctor Possesses Artifact'] },{ text:'3 points if News and Authorities do not have Evidence at Stationfall' }] },
+  'drones': { title:'None', items:[{ text:'Drones have no Identity Card and no Agenda', note:true }] },
+  'engineer': { title:'Preserve Ecosphere', items:[{ text:'3 points if Antimatter detonates On Board before Stationfall' },{ text:'3 points if no Contaminated Characters Escape' },{ text:'2 points if Artifact does not Escape' },{ text:'1 point if Innocent; Engineer may still win if Guilty' }] },
+  'exile': { title:'Back in the Game', items:[{ text:'2 points if Exile Escapes', children:['+2 points for each Possessed Kompromat belonging to an Escaped Character','+3 points if Exile has Evidence and News does not'] }] },
+  'inspector': { title:'Dirty', items:[{ text:'2 points if Inspector Escapes', children:['+4 points if Inspector Possesses Briefcase'] },{ text:'1 point if Authorities end with Evidence', children:['+2 points if News does not'] }] },
+  'legal': { title:'Reduce Corporate Liability', items:[{ text:'1 point for each Human that Escapes with NDA' },{ text:'4 points if no Humans Escape, or all Escaped Humans have NDA' },{ text:'2 points if Evidence does not Escape' },{ text:'1 point for each Suspect (not Guilty) Player Character at Stationfall' }] },
+  'maintenance-clones': { title:'Prove Clones Exist', items:[{ text:'1 point if a Clone Escapes', children:['+4 points if at least two Clones Escape','+2 points if News ends with Evidence'] }] },
+  'medical': { title:'Be Really Useful', items:[{ text:'2 points if no Down Humans are On Board at Stationfall' },{ text:'1 point for each star reached on Medical’s tracker', children:['Advance once for every Human Revival performed by Medical','Advance once for every cube moved to Betrayal upon Medical’s Reveal'] }] },
+  'microbiologist': { title:'Sentient Pathogen', items:[{ text:'2 points if Microbiologist Escapes' },{ text:'1 point for every Contaminated Character that Escapes' },{ text:'2 points if X-Secret Escapes' }] },
+  'operative': { title:'Coverup', items:[{ text:'2 points if Evidence does not Escape' },{ text:'2 points if X-Secret does not Escape' },{ text:'2 points if no Innocent Player Characters Escape' },{ text:'2 points if no Contaminated Characters Escape' },{ text:'1 point if no Robots Escape' }] },
+  'security': { title:'Peace Through Superior Firepower', items:[{ text:'1 point per Down Fugitive, Monster, or non-Innocent Player Character On Board at Stationfall' },{ text:'1 point per Down Human with a Bludgeon or Gun On Board at Stationfall' },{ text:'1 point if Briefcase does not Escape' },{ text:'1 point if Artifact does not Escape', children:['+1 point if both Briefcase and Artifact do not Escape'] }] },
+  'station-chief': { title:'Go Down with the Ship', items:[{ text:'1 point for every other Human that Escapes', children:['+1 point per NPC with Officer that Escapes'] },{ text:'2 points if Station Chief is On Board and Live at Stationfall' }] },
+  'stowaway': { title:'Scoop of a Lifetime', items:[{ text:'2 points if News ends with X-Secret' },{ text:'2 points if News ends with Evidence' },{ text:'2 points if Stowaway Escapes', children:['+3 points if Stowaway Escapes with Evidence and no other Character does'] }] },
+  'stranger': { title:'It’s Personal', items:[{ text:'1 point if Secret Identity is not Revealed until Stationfall' },{ text:'1 point if Stranger Possesses X-Secret' },{ text:'2 points if you score Bonus Points' },{ text:'2 points if Stranger is Live and Colocated with one of your Bonus Characters at Stationfall' }] },
+  'telepathic-rat': { title:'Penance', items:[{ text:'1 point for each Down Human or Robot Colocated with Telepathic Rat at Stationfall', children:['+2 points for each Possessed Kompromat belonging to those Colocated Down Characters'] },{ text:'2 points if Telepathic Rat is Colocated with Artifact at Stationfall' },{ text:'2 points if Telepathic Rat is Colocated with Briefcase at Stationfall' }] },
+  'troubleshooter': { title:'Pristine ’til the End', items:[{ text:'2 points if Antimatter is not Armed at Stationfall' },{ text:'2 points if Project X was never released' },{ text:'2 points if no Sections are Damaged at Stationfall' },{ text:'1 point for each Live Robot at Stationfall' }] }
+};
+
+characters.forEach(character => { character.agenda = agendas[character.id]; });
+
 const locations = [
   { id:'command', name:'Command Deck', deck:'A-01', zone:'Command', description:'Station control, executive systems, and the best overview of a worsening situation.', tags:['Authority','Comms'] },
   { id:'security', name:'Security', deck:'A-03', zone:'Command', description:'Restricted records, weapons lockers, and surveillance access converge here.', tags:['Secure','Armed'] },
@@ -471,11 +504,21 @@ function openCharacter(id) {
       <div class="intel-block"><h3>Setup</h3><p>${character.setup}</p></div>
       <div class="intel-block"><h3>${character.ability}</h3><p>${character.abilityText}</p></div>
       <div class="intel-block"><h3>Reveal power</h3><p>${character.reveal}</p></div>
-      <div class="intel-block"><h3>Agenda</h3><p>${character.objective}</p></div>
+      <div class="intel-block">${renderAgenda(character.agenda, character.objective)}</div>
       <div class="intel-block"><h3>Bonus points</h3><p>${character.bonus}</p></div>
       <div class="intel-block"><h3>Quirks</h3><p>${character.quirks}</p></div>
       <div class="modal-actions"><button class="btn btn-secondary" data-close-modal>Close file</button><a class="btn btn-primary" href="#traits" data-close-modal>Find shared abilities</a></div>
     </div>`);
+}
+
+function renderAgenda(agenda, fallback) {
+  if (!agenda) return `<h3>Agenda</h3><p>${fallback}</p>`;
+  const items = agenda.items.map(item => `
+    <li class="${item.note?'agenda-note':''}">
+      <span>${item.text}</span>
+      ${item.children?.length ? `<ul>${item.children.map(child => `<li>${child}</li>`).join('')}</ul>` : ''}
+    </li>`).join('');
+  return `<section class="agenda-card"><h3>Agenda: <em>${agenda.title}</em></h3><ul class="agenda-list">${items}</ul></section>`;
 }
 
 function openLocation(id) {
