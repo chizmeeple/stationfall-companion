@@ -595,12 +595,12 @@ function openCharacter(id) {
     </div>
     <div class="modal-body">
       <div class="meta">${character.traits.map(trait=>`<span class="tag">${trait}</span>`).join('')}<span class="tag in-play">START: ${character.start}</span>${character.influence?`<span class="tag">INFLUENCE ${character.influence}</span>`:''}</div>
-      <div class="intel-block"><h3>Setup</h3><p>${character.setup}</p></div>
       <div class="intel-block"><h3>Abilities</h3>${renderAbilities(character.abilityDetails)}</div>
       <div class="intel-block"><h3>Reveal ${character.revealPowers.length===1?'Power':'Powers'}</h3>${renderRevealPowers(character.revealPowers)}</div>
       <div class="intel-block">${renderAgenda(character.agenda, character.objective)}</div>
       <div class="intel-block"><h3>Bonus points</h3><p>${character.bonus}</p></div>
       <div class="intel-block"><h3>Quirks</h3><p>${character.quirks}</p></div>
+      <div class="intel-block"><h3>Setup</h3><p>${character.setup}</p></div>
       <div class="modal-actions"><button class="btn btn-secondary" data-close-modal>Close file</button><a class="btn btn-primary" href="#traits" data-close-modal>Find shared abilities</a></div>
     </div>`);
 }
