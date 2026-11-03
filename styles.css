@@ -127,6 +127,9 @@ h3 { letter-spacing: -.02em; }
 .counter button { width: 46px; height: 46px; border: 0; background: rgba(255,255,255,.04); cursor: pointer; }
 .counter button:hover { background: rgba(255,255,255,.09); }
 .counter output { width: 62px; text-align: center; font-family: var(--mono); font-size: 18px; }
+.setup-rule { min-height: 48px; padding: 8px 15px; display: flex; align-items: center; gap: 18px; border-left: 1px solid var(--signal); background: rgba(231,170,61,.06); color: var(--paper-dim); font-size: 12px; }
+.setup-rule span { white-space: nowrap; }
+.setup-rule strong { margin-right: 4px; color: var(--signal-bright); font-family: var(--mono); font-size: 17px; }
 .segment { display: inline-flex; padding: 4px; border: 1px solid var(--line); border-radius: 6px; background: rgba(255,255,255,.025); }
 .segment button { min-height: 38px; padding: 0 14px; border: 0; border-radius: 3px; color: var(--paper-dim); background: transparent; cursor: pointer; }
 .segment button.active { background: var(--paper); color: var(--ink); font-weight: 700; }
@@ -250,6 +253,7 @@ h3 { letter-spacing: -.02em; }
   .setup-rail { display: none; }
   .control-row { align-items: stretch; }
   .control-row .field { width: 100%; }
+  .setup-rule { width: 100%; align-items: flex-start; flex-direction: column; gap: 5px; }
   .segment { display: grid; grid-template-columns: 1fr 1fr; }
   .selection-count { width: 100%; margin: 0; }
   .character-grid { grid-template-columns: 1fr; }

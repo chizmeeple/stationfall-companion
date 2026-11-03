@@ -1,5 +1,16 @@
 const STORAGE_KEY = 'stationfall-field-terminal-v1';
 
+const SETUP_BY_PLAYERS = {
+  2: { characters: 12, identities: 3 },
+  3: { characters: 12, identities: 3 },
+  4: { characters: 12, identities: 2 },
+  5: { characters: 14, identities: 2 },
+  6: { characters: 15, identities: 2 },
+  7: { characters: 17, identities: 2 },
+  8: { characters: 19, identities: 2 },
+  9: { characters: 20, identities: 2 }
+};
+
 const characters = [
   { id:'astro-chimp', name:'Astro-Chimp', role:'Lab escapee', code:'AC', accent:'#e6a84a', traits:['Creature','Agile','Sneaky'], ability:'Zero-G Savant', abilityText:'Excels at improvised movement and hard-to-reach routes.', objective:'Keep the clever primate alive and one step ahead of station security.', start:'Bio Lab' },
   { id:'billionaire', name:'Billionaire', role:'Station patron', code:'BL', accent:'#d9c678', traits:['Human','Wealthy','Influential'], ability:'Open Account', abilityText:'Money, access, and leverage turn locked doors into suggestions.', objective:'Convert influence into a clean escape before the station falls.', start:'Executive Suite' },
@@ -18,7 +29,9 @@ const characters = [
   { id:'space-pirate', name:'Space Pirate', role:'Opportunistic raider', code:'SP', accent:'#d96161', traits:['Human','Armed','Sneaky'], ability:'Claim Salvage', abilityText:'Knows what is worth taking and how to make it disappear.', objective:'Leave richer than you arrived, preferably with your crew intact.', start:'Cargo Hold' },
   { id:'stowaway', name:'Stowaway', role:'Unlisted passenger', code:'ST', accent:'#b6a286', traits:['Human','Sneaky','Survivor'], ability:'Nobody Here', abilityText:'Turns overlooked spaces into safe routes and hiding places.', objective:'Stay off every manifest and get onto an outbound craft.', start:'Waste Processing' },
   { id:'telepathic-rat', name:'Telepathic Rat', role:'Psionic specimen', code:'TR', accent:'#cf9a86', traits:['Creature','Psionic','Tiny'], ability:'Whisper Network', abilityText:'Hears the station through vents, minds, and frightened vermin.', objective:'Free the colony and punish whoever called it an experiment.', start:'Ventilation' },
-  { id:'xenobiologist', name:'Xenobiologist', role:'Alien life expert', code:'XB', accent:'#6fc29c', traits:['Human','Scientist','Medical'], ability:'Alien Physiology', abilityText:'Recognizes what is alive, what is dangerous, and what only looks dead.', objective:'Recover the breakthrough without becoming part of it.', start:'Containment' }
+  { id:'xenobiologist', name:'Xenobiologist', role:'Alien life expert', code:'XB', accent:'#6fc29c', traits:['Human','Scientist','Medical'], ability:'Alien Physiology', abilityText:'Recognizes what is alive, what is dangerous, and what only looks dead.', objective:'Recover the breakthrough without becoming part of it.', start:'Containment' },
+  { id:'troubleshooter', name:'Troubleshooter', role:'Crisis contractor', code:'TS', accent:'#e5bd68', traits:['Human','Technical','Armed'], ability:'Contingency Plan', abilityText:'Arrives prepared for the failure nobody else expected.', objective:'Resolve the contract before the client changes the terms.', start:'Docking Bay' },
+  { id:'revolutionary', name:'Revolutionary', role:'Political agitator', code:'RV', accent:'#dc6f62', traits:['Human','Influential','Survivor'], ability:'Rally the Crew', abilityText:'Turns panic and resentment into coordinated action.', objective:'Make sure the station falls for the right reason.', start:'Habitat Ring' }
 ];
 
 const locations = [
@@ -50,7 +63,8 @@ const projects = [
 
 const state = {
   game: loadGame(),
-  setupCount: 8,
+  setupPlayers: 4,
+  setupCount: SETUP_BY_PLAYERS[4].characters,
   setupMode: 'manual',
   setupSelected: [],
   selectedTrait: 'Agile',
@@ -134,7 +148,7 @@ function renderHome() {
       <div class="active-game-top">
         <div>
           <h3><span class="pulse"></span>Active game detected</h3>
-          <p>${state.game.characterIds.length} characters · saved ${relativeTime(state.game.updatedAt)}</p>
+          <p>${state.game.playerCount ? `${state.game.playerCount} players · ` : ''}${state.game.characterIds.length} characters · saved ${relativeTime(state.game.updatedAt)}</p>
         </div>
         <a class="btn btn-primary" href="#game">Continue game <span>→</span></a>
       </div>
@@ -167,6 +181,7 @@ function startNewGame() {
 
 function renderSetup() {
   const selected = new Set(state.setupSelected);
+  const setupRule = SETUP_BY_PLAYERS[state.setupPlayers];
   const picker = state.setupMode === 'manual' ? `
     <div class="character-grid">
       ${characters.map(character => `
@@ -181,7 +196,7 @@ function renderSetup() {
       <div class="random-stage-inner">
         <div class="random-stage-icon">?</div>
         <h2>Let the station decide.</h2>
-        <p class="lede">We’ll draw ${state.setupCount} distinct characters. You can reshuffle until the table feels right.</p>
+        <p class="lede">We’ll draw the ${state.setupCount} characters required for ${state.setupPlayers} players. You can reshuffle until the table feels right.</p>
         <button class="btn btn-secondary" data-action="preview-random">Generate preview</button>
       </div>
     </div>`;
@@ -194,7 +209,7 @@ function renderSetup() {
         <h3>Build the cast</h3>
         <p>Your setup saves when you launch the companion.</p>
         <div class="step-list">
-          <div class="step active"><b>1</b><span>ROSTER SIZE</span></div>
+          <div class="step active"><b>1</b><span>PLAYER COUNT</span></div>
           <div class="step active"><b>2</b><span>CHARACTERS</span></div>
           <div class="step"><b>3</b><span>LAUNCH</span></div>
         </div>
@@ -205,12 +220,16 @@ function renderSetup() {
         </div>
         <div class="control-row">
           <div class="field">
-            <label>Characters in play</label>
+            <label>Number of players</label>
             <div class="counter">
-              <button data-action="decrement" aria-label="Fewer characters">−</button>
-              <output>${state.setupCount}</output>
-              <button data-action="increment" aria-label="More characters">＋</button>
+              <button data-action="decrement" aria-label="Fewer players">−</button>
+              <output>${state.setupPlayers}</output>
+              <button data-action="increment" aria-label="More players">＋</button>
             </div>
+          </div>
+          <div class="setup-rule" aria-label="Setup requirements">
+            <span><strong>${setupRule.characters}</strong> characters in play</span>
+            <span><strong>${setupRule.identities}</strong> identity cards per player</span>
           </div>
           <div class="field">
             <label>Selection method</label>
@@ -233,12 +252,14 @@ function renderSetup() {
 
 function bindSetup() {
   app.querySelector('[data-action="decrement"]').addEventListener('click', () => {
-    state.setupCount = Math.max(3, state.setupCount - 1);
+    state.setupPlayers = Math.max(2, state.setupPlayers - 1);
+    state.setupCount = SETUP_BY_PLAYERS[state.setupPlayers].characters;
     state.setupSelected = state.setupSelected.slice(0, state.setupCount);
     renderSetup();
   });
   app.querySelector('[data-action="increment"]').addEventListener('click', () => {
-    state.setupCount = Math.min(12, state.setupCount + 1);
+    state.setupPlayers = Math.min(9, state.setupPlayers + 1);
+    state.setupCount = SETUP_BY_PLAYERS[state.setupPlayers].characters;
     renderSetup();
   });
   app.querySelectorAll('[data-mode]').forEach(button => button.addEventListener('click', () => {
@@ -261,7 +282,7 @@ function bindSetup() {
   app.querySelector('[data-action="launch"]').addEventListener('click', () => {
     const ids = state.setupMode === 'random' ? randomCharacterIds(state.setupCount) : state.setupSelected;
     if (ids.length !== state.setupCount) return;
-    saveGame({ id: crypto.randomUUID?.() || String(Date.now()), characterIds:ids, createdAt:Date.now(), updatedAt:Date.now() });
+    saveGame({ id: crypto.randomUUID?.() || String(Date.now()), playerCount:state.setupPlayers, identityCardsPerPlayer:SETUP_BY_PLAYERS[state.setupPlayers].identities, characterIds:ids, createdAt:Date.now(), updatedAt:Date.now() });
     location.hash = '#game';
     showToast('Game saved on this device');
   });
@@ -279,7 +300,7 @@ function renderDashboard() {
         <div>
           <p class="eyebrow">Active game</p>
           <h2>Station brief</h2>
-          <div class="game-meta"><span class="status-tag">LOCAL SAVE ACTIVE</span><span>${roster.length} CHARACTERS</span><span>STARTED ${formatDate(state.game.createdAt)}</span></div>
+          <div class="game-meta"><span class="status-tag">LOCAL SAVE ACTIVE</span>${state.game.playerCount?`<span>${state.game.playerCount} PLAYERS</span><span>${state.game.identityCardsPerPlayer} IDENTITIES EACH</span>`:''}<span>${roster.length} CHARACTERS</span><span>STARTED ${formatDate(state.game.createdAt)}</span></div>
         </div>
         <button class="btn btn-danger" data-action="end-game">End game</button>
       </div>
