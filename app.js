@@ -809,7 +809,7 @@ function renderGameSetup() {
       </div>
       <ol class="setup-guide-list">
         ${roster.map((character, index) => `
-          <li class="setup-guide-card" style="--accent:${character.accent}">
+          <li class="setup-guide-card ${hasSetupLocator(character) ? 'has-locator' : ''}" style="--accent:${character.accent}">
             <span class="setup-guide-number">${String(index + 1).padStart(2,'0')}</span>
             <div class="setup-guide-avatar">${character.code}</div>
             <div class="setup-guide-content">
@@ -823,6 +823,7 @@ function renderGameSetup() {
               <div class="setup-location"><span>Starting location</span><strong>${character.start}</strong></div>
               <ul class="setup-step-list">${getSetupSteps(character).map(step => `<li>${step}</li>`).join('')}</ul>
             </div>
+            ${renderSetupMap(character)}
           </li>`).join('')}
       </ol>
     </section>`;
@@ -832,9 +833,70 @@ function renderGameSetup() {
 
 function getSetupSteps(character) {
   return character.setup
-    .split(/(?<=[.!?])\s+|;\s+/)
+    .split(/(?<=\.)\s+|;\s+/)
     .map(step => step.trim())
     .filter(Boolean);
+}
+
+const SETUP_LOCATIONS = {
+  'astrochimp':['Kitchen'],
+  'billionaire':['Suite','Security Station'],
+  'boarder':['Outer Space'],
+  'botanist':['Hydroponics'],
+  'colonel':['Security Station','Quarters'],
+  'consort':['Rec Room'],
+  'corpsicle':['Cryo Lab'],
+  'counselor':['Therapy Garden','Shred Room'],
+  'cyborg':['Cryo Lab'],
+  'daredevil':['Locker Room','Physics Lab','Outer Space'],
+  'doctor-hyde':['Forward Hub'],
+  'doctor-jekyll':['Forward Hub'],
+  'drones':['Physics Lab','Outer Space'],
+  'engineer':['Array Control','Reactor'],
+  'exile':['Array Control'],
+  'inspector':['Chem Lab'],
+  'legal':['Aft Hub'],
+  'maintenance-clones':['Fuel Cells','Kitchen','Quarters'],
+  'medical':['Aft Hub'],
+  'microbiologist':['Physics Lab'],
+  'operative':['Suite'],
+  'security':['Print Shop'],
+  'station-chief':['Therapy Garden','Forward Airlocks'],
+  'stranger':['Nanofactory'],
+  'telepathic-rat':['Bio Lab'],
+  'troubleshooter':['Print Shop','Forward Airlocks']
+};
+
+function hasSetupLocator(character) {
+  return Boolean(SETUP_LOCATIONS[character.id]?.length);
+}
+
+function renderSetupMap(character) {
+  if (!hasSetupLocator(character)) return '';
+  const locations = SETUP_LOCATIONS[character.id];
+  const markerRows = locations.length === 1 ? [75] : locations.length === 2 ? [50,100] : [32,75,118];
+  return `<div class="setup-mini-map" role="img" aria-label="Starting location: ${character.start}">
+    <span>Setup schematic</span>
+    <svg viewBox="0 0 220 150" aria-hidden="true" focusable="false">
+      <g class="schematic-station">
+        <rect x="11" y="18" width="64" height="114" rx="18"></rect>
+        <path d="M43 18v114M11 47h64M11 75h64M11 103h64"></path>
+        <circle cx="43" cy="32" r="4"></circle>
+        <circle cx="43" cy="61" r="4"></circle>
+        <circle cx="43" cy="89" r="4"></circle>
+        <circle cx="43" cy="118" r="4"></circle>
+      </g>
+      ${locations.map((locationName, index) => {
+        const row = markerRows[index];
+        return `<g class="schematic-location">
+          <path d="M47 ${row}H91"></path>
+          <circle cx="47" cy="${row}" r="5"></circle>
+          <rect x="91" y="${row - 13}" width="119" height="26" rx="5"></rect>
+          <text x="101" y="${row + 3}">${escapeHtml(locationName)}</text>
+        </g>`;
+      }).join('')}
+    </svg>
+  </div>`;
 }
 
 function toolCard(routeName, icon, title, text) {
@@ -999,7 +1061,7 @@ function openCharacter(id) {
       <div class="intel-block"><h3>Bonus points</h3>${renderBonusPoints(character.bonusPoints)}</div>
       <div class="intel-block"><h3>Quirks</h3>${renderQuirks(character.quirks)}</div>
       <div class="intel-block"><h3>Tips</h3>${renderTips(character.tips)}</div>
-      <div class="intel-block"><h3>Setup</h3><p>${character.setup}</p></div>
+      <div class="intel-block"><h3>Setup</h3><div class="character-setup ${hasSetupLocator(character) ? 'has-locator' : ''}"><div><div class="setup-location"><span>Starting location</span><strong>${character.start}</strong></div><ul class="setup-step-list">${getSetupSteps(character).map(step => `<li>${step}</li>`).join('')}</ul></div>${renderSetupMap(character)}</div></div>
       <div class="modal-actions"><button class="btn btn-secondary" data-close-modal>Close file</button><a class="btn btn-primary" href="#traits" data-close-modal>Find shared abilities</a></div>
     </div>`);
 }

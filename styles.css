@@ -192,6 +192,7 @@ h3 { letter-spacing: -.02em; }
 .setup-guide-count span { display: block; margin-top: 5px; color: var(--paper-dim); font-family: var(--mono); font-size: 9px; letter-spacing: .09em; text-transform: uppercase; }
 .setup-guide-list { margin: 0; padding: 0; display: grid; gap: 12px; list-style: none; counter-reset: setup-card; }
 .setup-guide-card { min-height: 176px; padding: 24px; display: grid; grid-template-columns: 34px 58px minmax(0,1fr); gap: 20px; align-items: start; position: relative; overflow: hidden; border: 1px solid var(--line); border-radius: 7px; background: linear-gradient(110deg, color-mix(in srgb, var(--accent) 7%, transparent), rgba(255,255,255,.02) 44%); }
+.setup-guide-card.has-locator { grid-template-columns: 34px 58px minmax(0,1fr) 178px; }
 .setup-guide-card::after { content: ''; position: absolute; inset: 0 auto 0 0; width: 3px; background: var(--accent); opacity: .8; }
 .setup-guide-number { padding-top: 5px; color: var(--paper-dim); font-family: var(--mono); font-size: 10px; letter-spacing: .1em; }
 .setup-guide-avatar { width: 58px; height: 58px; display: grid; place-items: center; border: 1px solid color-mix(in srgb, var(--accent) 65%, transparent); border-radius: 50%; color: var(--ink); background: var(--accent); font-family: var(--mono); font-weight: 700; }
@@ -207,6 +208,20 @@ h3 { letter-spacing: -.02em; }
 .setup-step-list li { margin: 0 0 8px; padding-left: 4px; line-height: 1.6; }
 .setup-step-list li:last-child { margin-bottom: 0; }
 .setup-step-list li::marker { color: var(--signal-bright); }
+.setup-mini-map { width: 178px; align-self: center; padding: 10px 11px 8px; border: 1px solid rgba(233,231,220,.18); border-radius: 5px; background: rgba(233,231,220,.045); }
+.setup-mini-map > span { display: block; margin-bottom: 5px; color: var(--paper-dim); font-family: var(--mono); font-size: 7px; letter-spacing: .12em; text-transform: uppercase; }
+.setup-mini-map svg { display: block; width: 100%; height: auto; }
+.schematic-station { fill: rgba(146,209,183,.025); stroke: rgba(146,209,183,.42); stroke-width: 1.5; }
+.schematic-station path { fill: none; }
+.schematic-station circle { fill: var(--ink); stroke: rgba(146,209,183,.65); }
+.schematic-location path { fill: none; stroke: color-mix(in srgb, var(--accent) 72%, var(--signal)); stroke-width: 1.5; }
+.schematic-location circle { fill: color-mix(in srgb, var(--accent) 72%, var(--signal)); stroke: var(--ink); stroke-width: 2; }
+.schematic-location rect { fill: rgba(233,231,220,.035); stroke: rgba(233,231,220,.22); }
+.schematic-location text { fill: var(--paper); font-family: var(--mono); font-size: 8px; font-weight: 700; letter-spacing: .025em; text-transform: uppercase; }
+.character-setup { display: grid; grid-template-columns: minmax(0,1fr); gap: 20px; align-items: start; }
+.character-setup.has-locator { grid-template-columns: minmax(0,1fr) 178px; }
+.character-setup .setup-location { margin-top: 0; }
+.character-setup .setup-mini-map { align-self: start; }
 
 .lookup-bar { display: grid; grid-template-columns: 1fr auto; gap: 10px; margin: 24px 0; }
 .search-input { padding-left: 18px; min-height: 50px; }
@@ -316,6 +331,8 @@ h3 { letter-spacing: -.02em; }
   .step { grid-template-columns: 28px; justify-content: center; text-align: center; }
   .character-grid { grid-template-columns: repeat(2, 1fr); }
   .tool-grid { grid-template-columns: repeat(2,1fr); }
+  .setup-guide-card.has-locator { grid-template-columns: 34px 58px minmax(0,1fr); }
+  .setup-guide-card > .setup-mini-map { grid-column: 3; width: min(240px,100%); }
 }
 
 @media (max-width: 640px) {
@@ -346,9 +363,12 @@ h3 { letter-spacing: -.02em; }
   .tool-grid { grid-template-columns: 1fr; }
   .tool-card { min-height: 112px; grid-template-columns: 48px minmax(0,1fr); gap: 15px; padding: 16px; }
   .tool-card .tool-icon { width: 48px; height: 48px; font-size: 24px; }
-  .setup-guide-card { grid-template-columns: 46px minmax(0,1fr); gap: 15px; padding: 18px; }
+  .setup-guide-card, .setup-guide-card.has-locator { grid-template-columns: 46px minmax(0,1fr); gap: 15px; padding: 18px; }
   .setup-guide-number { display: none; }
   .setup-guide-avatar { width: 46px; height: 46px; }
+  .setup-guide-card > .setup-mini-map { grid-column: 2; width: min(220px,100%); }
+  .character-setup, .character-setup.has-locator { grid-template-columns: 1fr; }
+  .character-setup .setup-mini-map { width: min(220px,100%); }
   .setup-guide-heading { gap: 10px; }
   .setup-guide-heading h3 { font-size: 20px; }
   .setup-guide-heading .text-link { font-size: 0; }
