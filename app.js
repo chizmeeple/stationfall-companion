@@ -579,12 +579,12 @@ function route() {
   closeModal();
   renderHeader(view);
 
-  if (['game','characters','locations','projects','traits'].includes(view) && !state.game) {
+  if (['game','game-setup','characters','locations','projects','traits'].includes(view) && !state.game) {
     location.hash = '#home';
     return;
   }
 
-  const renderers = { home:renderHome, setup:renderSetup, game:renderDashboard, characters:renderCharacters, locations:renderLocations, projects:renderProjects, traits:renderTraits };
+  const renderers = { home:renderHome, setup:renderSetup, game:renderDashboard, 'game-setup':renderGameSetup, characters:renderCharacters, locations:renderLocations, projects:renderProjects, traits:renderTraits };
   (renderers[view] || renderHome)(id);
   renderBottomNav(view);
   window.scrollTo({ top:0, behavior:'instant' });
@@ -593,14 +593,14 @@ function route() {
 
 function renderHeader(view) {
   if (state.game && view !== 'home' && view !== 'setup') {
-    headerActions.innerHTML = `<span class="game-label status-tag">GAME SAVED</span><a class="btn btn-ghost" href="#home">Main menu</a>`;
+    headerActions.innerHTML = `<span class="game-label status-tag">GAME SAVED</span><a class="icon-btn setup-shortcut ${view==='game-setup'?'active':''}" href="#game-setup" aria-label="View game setup" title="View game setup">⚙</a><a class="btn btn-ghost" href="#home">Main menu</a>`;
   } else {
     headerActions.innerHTML = state.game ? `<a class="btn btn-ghost" href="#game">Resume</a>` : '';
   }
 }
 
 function renderBottomNav(view) {
-  const gameViews = ['game','characters','locations','projects','traits'];
+  const gameViews = ['game','game-setup','characters','locations','projects','traits'];
   if (!state.game || !gameViews.includes(view)) {
     bottomNav.hidden = true;
     return;
@@ -790,6 +790,49 @@ function renderDashboard() {
   const globalSearch = app.querySelector('#global-search');
   globalSearch.addEventListener('input', () => renderGlobalResults(globalSearch.value));
   document.addEventListener('keydown', focusSearchShortcut, { once:true });
+}
+
+function renderGameSetup() {
+  const roster = sortCharacters(getRoster());
+  app.innerHTML = `
+    <a class="back-link" href="#game">← Station brief</a>
+    <section class="game-setup-guide">
+      <div class="page-head">
+        <div>
+          <p class="eyebrow">Active game</p>
+          <h2>Setup checklist</h2>
+          <p class="lede">Place the selected characters and their associated components before play.</p>
+        </div>
+        <div class="setup-guide-count"><strong>${roster.length}</strong><span>characters selected</span></div>
+      </div>
+      <ol class="setup-guide-list">
+        ${roster.map((character, index) => `
+          <li class="setup-guide-card" style="--accent:${character.accent}">
+            <span class="setup-guide-number">${String(index + 1).padStart(2,'0')}</span>
+            <div class="setup-guide-avatar">${character.code}</div>
+            <div class="setup-guide-content">
+              <div class="setup-guide-heading">
+                <div>
+                  <div class="character-types">${characterTypes(character).map(renderCharacterTypeBadge).join('')}</div>
+                  <h3>${character.name}</h3>
+                </div>
+                <button class="text-link" data-setup-character="${character.id}">Open character ↗</button>
+              </div>
+              <div class="setup-location"><span>Starting location</span><strong>${character.start}</strong></div>
+              <ul class="setup-step-list">${getSetupSteps(character).map(step => `<li>${step}</li>`).join('')}</ul>
+            </div>
+          </li>`).join('')}
+      </ol>
+    </section>`;
+
+  app.querySelectorAll('[data-setup-character]').forEach(button => button.addEventListener('click', () => openCharacter(button.dataset.setupCharacter)));
+}
+
+function getSetupSteps(character) {
+  return character.setup
+    .split(/(?<=[.!?])\s+|;\s+/)
+    .map(step => step.trim())
+    .filter(Boolean);
 }
 
 function toolCard(routeName, icon, title, text) {

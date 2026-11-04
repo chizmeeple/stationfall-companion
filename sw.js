@@ -1,8 +1,17 @@
-const CACHE = 'stationfall-terminal-v24';
+const CACHE = 'stationfall-terminal-v27';
 const ASSETS = ['./', './index.html', './styles.css', './app.js', './manifest.webmanifest', './icon.svg'];
 
 self.addEventListener('install', event => {
-  event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting()));
+  event.waitUntil(
+    caches.open(CACHE)
+      .then(cache => Promise.all(ASSETS.map(async asset => {
+        const separator = asset.includes('?') ? '&' : '?';
+        const response = await fetch(`${asset}${separator}cache=${CACHE}`, { cache:'no-store' });
+        if (!response.ok) throw new Error(`Unable to cache ${asset}`);
+        await cache.put(asset, response);
+      })))
+      .then(() => self.skipWaiting())
+  );
 });
 
 self.addEventListener('activate', event => {
