@@ -236,6 +236,14 @@ h3 { letter-spacing: -.02em; }
 .intel-block + .intel-block { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--line); }
 .intel-block h3 { margin-bottom: 8px; font-family: var(--mono); font-size: 10px; letter-spacing: .14em; color: var(--signal); text-transform: uppercase; }
 .intel-block p { margin: 0; color: var(--paper-dim); line-height: 1.65; }
+.project-paragraphs p + p { margin-top: 10px; }
+.project-abilities { display: grid; gap: 10px; }
+.project-ability { padding: 14px 16px; border: 1px solid var(--line); background: rgba(143, 211, 184, .055); }
+.project-ability strong { display: block; margin-bottom: 4px; color: var(--paper); }
+.project-rule-list { margin: 0; padding-left: 22px; color: var(--paper-dim); }
+.project-rule-list li { margin: 0 0 11px; padding-left: 3px; line-height: 1.65; }
+.project-rule-list li:last-child { margin-bottom: 0; }
+.project-rule-list li::marker { color: var(--mint); }
 .ability-list { display: grid; gap: 10px; margin-top: 14px; }
 .ability-card { padding: 17px 18px; border: 1px solid rgba(146,209,183,.24); border-left: 3px solid var(--mint); border-radius: 5px; background: linear-gradient(110deg, rgba(146,209,183,.09), rgba(255,255,255,.025)); }
 .ability-card:nth-child(even) { border-color: rgba(231,170,61,.23); border-left-color: var(--signal); background: linear-gradient(110deg, rgba(231,170,61,.085), rgba(255,255,255,.02)); }

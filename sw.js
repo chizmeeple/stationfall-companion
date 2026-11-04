@@ -1,4 +1,4 @@
-const CACHE = 'stationfall-terminal-v23';
+const CACHE = 'stationfall-terminal-v24';
 const ASSETS = ['./', './index.html', './styles.css', './app.js', './manifest.webmanifest', './icon.svg'];
 
 self.addEventListener('install', event => {
