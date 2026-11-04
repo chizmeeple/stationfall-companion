@@ -74,9 +74,11 @@ button { color: inherit; }
 
 main { width: min(1180px, calc(100% - 36px)); margin: 0 auto; padding: clamp(34px, 6vw, 78px) 0 110px; }
 main:focus { outline: none; }
-.app-footer { width: min(1180px, calc(100% - 36px)); margin: -72px auto 0; padding: 24px 0 34px; border-top: 1px solid var(--line); }
+.app-footer { width: min(1180px, calc(100% - 36px)); margin: -72px auto 0; padding: 24px 0 34px; border-top: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; gap: 18px; }
 .app-footer a { display: inline-flex; align-items: center; gap: 8px; color: var(--paper-dim); font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-decoration: none; text-transform: uppercase; }
 .app-footer a:hover { color: var(--signal-bright); }
+.app-version { display: inline-flex; align-items: center; gap: 7px; color: var(--paper-dim); font-family: var(--mono); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
+.app-version strong { color: var(--mint); font-weight: 600; text-transform: none; }
 .eyebrow { margin: 0 0 12px; font-family: var(--mono); font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--signal-bright); }
 .eyebrow::before { content: '// '; opacity: .55; }
 h1, h2, h3, p { margin-top: 0; }
@@ -322,6 +324,7 @@ h3 { letter-spacing: -.02em; }
   .brand-copy small { display: none; }
   main { width: min(100% - 28px, 1180px); padding-top: 34px; padding-bottom: 110px; }
   .app-footer { width: min(100% - 28px, 1180px); margin-top: -82px; padding-bottom: 104px; }
+  .app-version span { display: none; }
   h1 { font-size: clamp(42px, 15vw, 68px); }
   .home-menu { padding-top: 18px; }
   .home-actions, .home-actions .btn { width: 100%; }

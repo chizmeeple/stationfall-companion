@@ -1,4 +1,5 @@
 const STORAGE_KEY = 'stationfall-field-terminal-v1';
+const APP_VERSION = 'v0.2.0';
 
 const SETUP_BY_PLAYERS = {
   2: { characters: 12, identities: 3 },
@@ -529,6 +530,7 @@ const headerActions = document.querySelector('#header-actions');
 const bottomNav = document.querySelector('#bottom-nav');
 const modalRoot = document.querySelector('#modal-root');
 const toast = document.querySelector('#toast');
+document.querySelector('#app-version').textContent = APP_VERSION;
 
 function loadGame() {
   try {
