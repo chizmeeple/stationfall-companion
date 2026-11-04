@@ -1,5 +1,5 @@
 const STORAGE_KEY = 'stationfall-field-terminal-v1';
-const APP_VERSION = 'v0.2.0';
+const APP_VERSION = 'v0.2.1';
 
 const SETUP_BY_PLAYERS = {
   2: { characters: 12, identities: 3 },
